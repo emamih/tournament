@@ -1,0 +1,225 @@
+/*
+ * Script: stylesheet.css
+ *        the broker application's CSS3 style sheet. Navigator design adapted
+ *		  from tutorial of the Web Designer Wall:
+ *        http://webdesignerwall.com/tutorials/css3-dropdown-menu
+ */
+body {
+	width: 60em; margin: 2em 3em; line-height: 1.5em;
+	font-size: 14px; font-family: Arial, Helvetica, sans-serif;
+	color: #221100; background: #ebebeb;
+}
+
+section {
+	display: block;
+}
+
+main > section {
+	margin-bottom: 1.5em;
+}
+
+h1 {
+	margin-bottom: .4em; font-size: 140%;
+}
+
+h2 {
+	margin-bottom: .2em; font-size: 120%;
+}
+
+fieldset {
+	margin: 0; background: #e2e2e2;
+}
+
+legend {
+	font-size: 60%;
+}
+
+textarea {
+	font-size: inherit; font-family: inherit;
+}
+
+button, input[type="button"] {
+	border-radius: 0.2em; padding: 0.1em 1.5em;
+	color: #444444; background: linear-gradient(#ebebeb,  #a1a1a1);
+	font-weight: bold; text-shadow: 0 1px 0 rgba(255, 255, 255, .8);
+}
+
+a:hover img {
+	opacity: 0.7;
+}
+
+label.horizontal {
+	display: inline-block; width: 5em; text-align: right;
+	padding: 0 .5em; vertical-align: middle;
+}
+
+
+nav ul {
+	padding: .55em .5em 0 .5em;
+	border: solid 1px #6d6d6d; border-radius: 2em; background: linear-gradient(#a9a9a9,  #7a7a7a);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+}
+
+nav li {
+	padding: 0 0 .6em 0; margin: 0 .4em;
+	list-style: none;
+}
+
+nav.horizontal li {
+	display: inline-block;
+}
+
+nav a {
+	display: inline-block; padding: .4em 1.5em; margin: 0;
+	color: #e7e5e5; font-weight: bold; border-radius: 1.6em;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+}
+
+nav li.selected a, nav li:hover a {
+	color: #444444; background: linear-gradient(#ebebeb,  #a1a1a1); border-top: solid 1px #f0f0f0; border-radius: 0.2em;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, .8); box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+}
+
+nav div:first-of-type.image-slider {
+	display: inline-block; width: 12.2em; margin-left: 1.6em;
+}
+
+nav div:last-of-type.image-slider {
+	display: inline-block; width: 43.6em;
+}
+
+
+footer .success {
+	color: green;
+}
+
+footer .warning {
+	color: orange; font-weight: bold;
+}
+
+footer .error {
+	color: red; font-weight: bolder;
+}
+
+
+div.image-slider {
+	overflow-x: scroll; 
+	border: 2px groove #f0f0f0; background: #e2e2e2;
+}
+
+div.image-slider a {
+	display: table-cell; padding: 0 1px; text-align: center;
+}
+
+div.image-slider img {
+	display: block; width: 6em; height: 6em;
+}
+
+
+section.root-games {
+	margin-bottom: 2em;
+}
+
+section.root-games > div {
+	width: 32em; border: 2px groove #f0f0f0; background: #e2e2e2;
+}
+
+div.root-game > span:first-of-type {
+	display: inline-block; width: 23em; margin-left: 0.2em;
+}
+
+div.root-game input[type="number"] {
+	width: 3em;
+}
+
+
+section.score-sheet table {
+	background-color: #e2e2e2;
+	border-collapse: collapse; border: 2px groove #f0f0f0;
+}
+
+section.score-sheet th, section.score-sheet td {
+	padding: .2em; border-left: 1px solid white; text-align: right;
+}
+
+section.score-sheet th {
+	background-color: white;
+}
+
+section.score-sheet th:nth-of-type(2) {
+	width: 16em; text-align: left;
+}
+
+section.score-sheet th:nth-of-type(n+3):nth-of-type(-n+5) {
+	width: 2em;
+}
+
+section.score-sheet td:nth-of-type(2) {
+	text-align: left;
+}
+
+section.score-sheet img {
+	margin-right: 0.4em;
+}
+
+
+section.derived-games {
+	display: inline-block; width: 14em;
+}
+
+section.derived-games h1 {
+	margin-bottom: 1em; text-align: center;
+}
+
+div.derived-game div {
+	position: relative; /* height: 25px * 2^parentIndex - 1 */
+}
+
+section:nth-of-type(1) div.derived-game div {
+	height: 24px;
+}
+
+section:nth-of-type(2) div.derived-game div {
+	height: 49px;
+}
+
+section:nth-of-type(3) div.derived-game div {
+	height: 99px;
+}
+
+section:nth-of-type(4) div.derived-game div {
+	height: 199px;
+}
+
+section:nth-of-type(5) div.derived-game div {
+	height: 399px;
+}
+
+div.derived-game div:nth-of-type(odd) {
+	border-bottom: 1px solid black;
+}
+
+div.derived-game div:nth-of-type(even) {
+	border-top: 1px solid black;
+}
+
+div.derived-game div:nth-of-type(n+2):nth-of-type(-n+3) {
+	border-right: 2px solid black;
+}
+
+div.derived-game span {
+	position: absolute; bottom: 0;
+	display: inline-block; width: 13.6em; margin-left: .2em;
+}
+
+div.derived-game img {
+	margin-top: .5em;
+}
+
+div.derived-game output {
+	margin-left: .1em;
+}
+
+div.derived-game input[type="number"] {
+	float: right; width: 3em;
+}

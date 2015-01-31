@@ -1,0 +1,134 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="author" content="Sascha Baumeister" />
+		<meta name="dcterms.rightsHolder" content="Sascha Baumeister" />
+		<meta name="dcterms.rights" content="all rights reserved" />
+		<meta name="dcterms.dateCopyrighted" content="2006-2015" />
+
+		<title>AJAX Tournament System</title>
+		<link rel="stylesheet" href="stylesheet.css" />
+
+		<script src="js/ajax.js" ></script>
+		<script src="js/controller.js"></script>
+		<script src="js/root-game-controller.js"></script>
+		<script src="js/score-sheet-controller.js"></script>
+		<script src="js/derived-game-controller.js"></script>
+		<script src="js/navigation-controller.js"></script>
+		<script src="js/application.js"></script>
+
+		<template id="root-games-template">
+			<section class="root-games">
+				<h1>Division <output></output></h1>
+				<div></div>
+			</section>
+		</template>
+
+		<template id="root-game-template">
+			<div class="root-game">
+				<span>
+					<img />
+					<output></output>
+					<span> vs </span>
+					<output></output>
+					<img />
+				</span>
+				<span>
+					<input type="number" min="0"></input>
+					<span> : </span>
+					<input type="number" min="0"></input>
+				</span>
+			</div>
+		</template>
+
+
+		<template id="score-sheet-template">
+			<section class="score-sheet">
+				<h1>Division <output></output></h1>
+				<table>
+					<thead>
+						<tr>
+							<th>Rank</th>
+							<th>Competitor</th>
+							<th>+</th>
+							<th>-</th>
+							<th>&Delta;</th>
+							<th>Points</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</section>
+		</template>
+
+		<template id="score-sheet-entry-template">
+			<tr>
+				<td><output></output></td>
+				<td><img /><output></output></td>
+				<td><output></output></td>
+				<td><output></output></td>
+				<td><output></output></td>
+				<td><output></output></td>
+			</tr>
+		</template>
+
+
+		<template id="derived-games-template">
+			<section class="derived-games">
+				<h1><output></output></h1>
+			</section>
+		</template>
+
+
+		<template id="derived-game-template">
+			<div class="derived-game">
+				<div>
+					<span>
+						<img />
+						<output></output>
+						<input type="number" min="0" />
+					</span>
+				</div>
+				<div></div>
+				<div>
+					<span>
+						<img />
+						<output></output>
+						<input type="number" min="0" />
+					</span>
+				</div>
+				<div></div>
+			</div>
+		</template>
+	</head>
+
+	<body>
+		<header>
+			<nav class="horizontal">
+				<ul>
+					<li class="selected">
+						<a>Competitions</a>
+					</li>
+				</ul>
+			</nav>
+			<nav>
+				<div class="image-slider"></div>
+				<div class="image-slider"></div>
+			</nav>
+			<nav class="horizontal">
+				<ul>
+					<li><a>Divisions</a></li>
+					<li><a>Score Sheets</a></li>
+					<li><a>Elimination Rounds</a></li>
+				</ul>
+			</nav>
+		</header>
+		<main></main>
+		<footer>
+			<span>Status: </span>
+			<output></output>
+		</footer>
+	</body>
+</html>
