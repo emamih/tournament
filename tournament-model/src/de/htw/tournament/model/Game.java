@@ -50,13 +50,13 @@ public class Game implements java.io.Serializable {
 	private Rankableentity rankableentityByIdentity;
 	
 	@Column(name = "leftOrdinal", nullable = false)
-	private byte leftOrdinal;
+	private Short leftOrdinal;
 	
 	@Column(name = "leftScore")
 	private Short leftScore;
 	
 	@Column(name = "rightOrdinal", nullable = false)
-	private byte rightOrdinal;
+	private Short rightOrdinal;
 	
 	@Column(name = "rightScore")
 	private Short rightScore;
@@ -66,8 +66,8 @@ public class Game implements java.io.Serializable {
 
 	public Game(Rankableentity rankableentityByRightRankableEntityReference,
 			Rankableentity rankableentityByLeftRankableEntityReference,
-			Rankableentity rankableentityByIdentity, byte leftOrdinal,
-			byte rightOrdinal) {
+			Rankableentity rankableentityByIdentity, Short leftOrdinal,
+			Short rightOrdinal) {
 		this.rankableentityByRightRankableEntityReference = rankableentityByRightRankableEntityReference;
 		this.rankableentityByLeftRankableEntityReference = rankableentityByLeftRankableEntityReference;
 		this.rankableentityByIdentity = rankableentityByIdentity;
@@ -78,8 +78,8 @@ public class Game implements java.io.Serializable {
 	public Game(Division division,
 			Rankableentity rankableentityByRightRankableEntityReference,
 			Rankableentity rankableentityByLeftRankableEntityReference,
-			Rankableentity rankableentityByIdentity, byte leftOrdinal,
-			Short leftScore, byte rightOrdinal, Short rightScore) {
+			Rankableentity rankableentityByIdentity, Short leftOrdinal,
+			Short leftScore, Short rightOrdinal, Short rightScore) {
 		this.division = division;
 		this.rankableentityByRightRankableEntityReference = rankableentityByRightRankableEntityReference;
 		this.rankableentityByLeftRankableEntityReference = rankableentityByLeftRankableEntityReference;
@@ -139,11 +139,11 @@ public class Game implements java.io.Serializable {
 	}
 
 	
-	public byte getLeftOrdinal() {
+	public Short getLeftOrdinal() {
 		return this.leftOrdinal;
 	}
 
-	public void setLeftOrdinal(byte leftOrdinal) {
+	public void setLeftOrdinal(Short leftOrdinal) {
 		this.leftOrdinal = leftOrdinal;
 	}
 
@@ -157,11 +157,11 @@ public class Game implements java.io.Serializable {
 	}
 
 	
-	public byte getRightOrdinal() {
+	public Short getRightOrdinal() {
 		return this.rightOrdinal;
 	}
 
-	public void setRightOrdinal(byte rightOrdinal) {
+	public void setRightOrdinal(Short rightOrdinal) {
 		this.rightOrdinal = rightOrdinal;
 	}
 
