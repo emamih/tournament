@@ -1,5 +1,0 @@
-package de.htw.tournament.model;
-
-public class ScoreSheetEntry implements Comparable<T> {
-
-}
