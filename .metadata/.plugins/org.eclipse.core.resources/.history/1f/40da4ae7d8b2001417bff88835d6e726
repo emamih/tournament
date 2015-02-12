@@ -1,0 +1,11 @@
+package de.htw.tournament.model;
+
+public class ScoreSheetEntry implements Comparable {
+
+	@Override
+	public int compareTo(T arg0) {
+		if (arg0 )
+		return 0;
+	}
+
+}

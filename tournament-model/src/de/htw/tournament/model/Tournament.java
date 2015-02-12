@@ -32,7 +32,7 @@ import de.sb.javase.TypeMetadata;
 @Table(schema = "tournament", indexes=@Index(columnList = "logoReference"))
 @PrimaryKeyJoinColumn(name = "identity")
 @TypeMetadata(copyright = "2013-2014 Sascha Baumeister, all rights reserved", version = "1.0.0", authors = "Sascha Baumeister")
-public class Tournament {
+public class Tournament implements Comparable {
 
 	@XmlAttribute
 	@Id
@@ -142,6 +142,13 @@ public class Tournament {
 
 	public Set<Competition> getCompetitions() {
 		return competitions;
+	}
+
+
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

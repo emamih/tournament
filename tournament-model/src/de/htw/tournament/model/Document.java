@@ -60,7 +60,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(schema = "tournament")
 @PrimaryKeyJoinColumn(name = "identity")
-public class Document {
+public class Document implements Comparable{
 	static private final byte[] DEFAULT_CONTENT = new byte[0];
 	static private final byte[] DEFAULT_CONTENT_HASH = { -29, -80, -60, 66, -104, -4, 28, 20, -102, -5, -12, -56, -103, 111, -71, 36, 39, -82, 65, -28, 100, -101, -109, 76, -92, -107, -103, 27, 120, 82, -72, 85 };
 	static private final String DEFAULT_CONTENT_TYPE = "application/octet-stream";
@@ -163,6 +163,12 @@ public class Document {
 
 	public long getIdentity() {
 		return identity;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

@@ -4,11 +4,14 @@ package de.htw.tournament.model;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,7 +25,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "competition", catalog = "tournament", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"tournamentReference", "season" }))
-public class Competition implements java.io.Serializable {
+public class Competition implements Comparable, java.io.Serializable {
 
 	/**
 	 * 
@@ -144,6 +147,12 @@ public class Competition implements java.io.Serializable {
 
 	public void setDivisions(Set<Division> divisions) {
 		this.divisions = divisions;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

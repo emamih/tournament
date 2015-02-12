@@ -21,7 +21,7 @@ import org.hibernate.annotations.Parameter;
  */
 @Entity
 @Table(name = "competitor", catalog = "tournament", uniqueConstraints = @UniqueConstraint(columnNames = "alias"))
-public class Competitor implements java.io.Serializable {
+public class Competitor extends Rankableentity implements java.io.Serializable {
 
 	/**
 	 * 
@@ -85,6 +85,12 @@ public class Competitor implements java.io.Serializable {
 
 	public void setAlias(String alias) {
 		this.alias = alias;
+	}
+
+	@Override
+	public ScoreSheetEntry getScoreSheet() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
