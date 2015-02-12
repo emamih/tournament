@@ -4,6 +4,8 @@ package de.htw.tournament.model;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -113,6 +116,20 @@ public class Division extends Rankableentity implements java.io.Serializable {
 
 	public void setGames(Set<Game> games) {
 		this.games = games;
+	}
+	
+	
+	public Set<Game> getRootGames() {
+		return this.games;
+	}
+	
+	public Set<Competitor> getCompetitors(){
+		TreeSet<Competitor> competitors = new TreeSet<Competitor>();
+		for(Game game : this.games){
+			competitors.add(game.getLeftCompetitor());
+			competitors.add(game.getRightCompetitor());
+		}
+		return competitors;
 	}
 
 	@Override

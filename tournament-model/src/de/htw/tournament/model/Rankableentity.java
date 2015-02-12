@@ -31,7 +31,7 @@ public abstract class Rankableentity implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	// TODO: Ist das i.O. dass hier alle abgeleiteten Klassen von Rankable Entity verfügbar sind ?
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "identity", unique = true, nullable = false)
