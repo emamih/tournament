@@ -42,7 +42,7 @@ public class DivisionService {
 		@QueryParam("resultOffset") final int resultOffset,
 		@QueryParam("resultLength") final int resultLength
 	) {
-		final EntityManager entityManager = ServiceProvider.BROKER_FACTORY.createEntityManager();
+		final EntityManager entityManager = ServiceProvider.TOURNAMENT_FACTORY.createEntityManager();
 
 		try {
 			final TypedQuery<Division> query = entityManager.createQuery(CRITERIA_QUERY_JPQL, Division.class);
@@ -68,7 +68,7 @@ public class DivisionService {
 	@Path("{identity}/root-games")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response queryRootGames (@PathParam("identity") final long divisionIdentity) {
-		final EntityManager entityManager = ServiceProvider.BROKER_FACTORY.createEntityManager();
+		final EntityManager entityManager = ServiceProvider.TOURNAMENT_FACTORY.createEntityManager();
 
 		try {
 
@@ -92,7 +92,7 @@ public class DivisionService {
 	@Path("{identity}/derived-games")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response queryDerivedGames (@PathParam("identity") final long divisionIdentity) {
-		final EntityManager entityManager = ServiceProvider.BROKER_FACTORY.createEntityManager();
+		final EntityManager entityManager = ServiceProvider.TOURNAMENT_FACTORY.createEntityManager();
 
 		try {
 

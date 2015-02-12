@@ -19,7 +19,7 @@ import de.sb.javase.TypeMetadata;
 @Provider
 @TypeMetadata(copyright = "2013-2015 Sascha Baumeister, all rights reserved", version = "1.0.0", authors = "Sascha Baumeister")
 public class ServiceProvider implements ExceptionMapper<Throwable> {
-	static public final EntityManagerFactory BROKER_FACTORY = Persistence.createEntityManagerFactory("broker");
+	static public final EntityManagerFactory TOURNAMENT_FACTORY = Persistence.createEntityManagerFactory("broker");
 
 
 	/**
