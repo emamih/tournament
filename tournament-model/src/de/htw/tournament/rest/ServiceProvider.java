@@ -11,15 +11,12 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import de.sb.javase.TypeMetadata;
-
 /**
  * JAX-RS service provider for exception mapping and HTTP Basic authentication.
  */
 @Provider
-@TypeMetadata(copyright = "2013-2015 Sascha Baumeister, all rights reserved", version = "1.0.0", authors = "Sascha Baumeister")
 public class ServiceProvider implements ExceptionMapper<Throwable> {
-	static public final EntityManagerFactory TOURNAMENT_FACTORY = Persistence.createEntityManagerFactory("broker");
+	static public final EntityManagerFactory TOURNAMENT_FACTORY = Persistence.createEntityManagerFactory("tournament");
 
 
 	/**
