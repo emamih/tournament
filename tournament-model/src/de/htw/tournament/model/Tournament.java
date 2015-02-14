@@ -20,8 +20,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import de.sb.javase.TypeMetadata;
-
 
 
 /**
@@ -31,7 +29,7 @@ import de.sb.javase.TypeMetadata;
 @Entity
 @Table(schema = "tournament", indexes=@Index(columnList = "logoReference"))
 @PrimaryKeyJoinColumn(name = "identity")
-@TypeMetadata(copyright = "2013-2014 Sascha Baumeister, all rights reserved", version = "1.0.0", authors = "Sascha Baumeister")
+@SuppressWarnings("rawtypes")
 public class Tournament implements Comparable {
 
 	@XmlAttribute

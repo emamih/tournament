@@ -1,5 +1,6 @@
 package de.htw.tournament.model;
 
+@SuppressWarnings("rawtypes")
 public class ScoreSheetEntry implements Comparable {
 
 	@Override

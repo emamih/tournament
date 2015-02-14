@@ -25,30 +25,39 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "competition", catalog = "tournament", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"tournamentReference", "season" }))
+@SuppressWarnings("rawtypes")
 public class Competition implements Comparable, java.io.Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "identity", unique = true, nullable = false)
 	private Long identity;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "logoReference", nullable = false)
 	private Document document;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "tournamentReference", nullable = false)
 	private Tournament tournament;
+	
 	@Column(name = "season", nullable = false)
 	private short season;
+	
 	@Column(name = "pointsPerWin", nullable = false, precision = 12, scale = 0)
 	private float pointsPerWin;
+	
 	@Column(name = "pointsPerDraw", nullable = false, precision = 12, scale = 0)
 	private float pointsPerDraw;
+	
 	@Column(name = "pointsPerLoss", nullable = false, precision = 12, scale = 0)
 	private float pointsPerLoss;
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "competition")
 	private Set<Division> divisions = new HashSet<Division>(0);
 

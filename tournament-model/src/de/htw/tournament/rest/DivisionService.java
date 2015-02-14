@@ -1,14 +1,11 @@
 package de.htw.tournament.rest;
 
-import java.nio.charset.Charset;
 import java.util.Collection;
-import java.util.List;
 import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -25,7 +22,7 @@ import de.htw.tournament.model.Game;
 @Path("divisions")
 public class DivisionService {
 
-	static private final Charset UTF8 = Charset.forName("UTF-8");
+//	static private final Charset UTF8 = Charset.forName("UTF-8");
 	static private final String CRITERIA_QUERY_JPQL = "select p from Division as p where "
 		+ "(:competition is null or p.competition = :competition) and "
 		+ "(:alias is null or p.alias = :alias) and "

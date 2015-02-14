@@ -20,6 +20,7 @@ public class Divisionscoresheetentry implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	@EmbeddedId
 	@AttributeOverrides({
 			@AttributeOverride(name = "competitorReference", column = @Column(name = "competitorReference", nullable = false)),

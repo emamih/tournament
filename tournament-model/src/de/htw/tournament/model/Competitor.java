@@ -27,17 +27,21 @@ public class Competitor extends Rankableentity implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	@GenericGenerator(name = "generator", strategy = "foreign", parameters = @Parameter(name = "property", value = "rankableentity"))
 	@Id
 	@GeneratedValue(generator = "generator")
 	@Column(name = "competitorIdentity", unique = true, nullable = false)
 	private long competitorIdentity;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "logoReference", nullable = false)
 	private Document document;
+	
 	@OneToOne(fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn
 	private Rankableentity rankableentity;
+	
 	@Column(name = "alias", unique = true, nullable = false, length = 64)
 	private String alias;
 
