@@ -168,8 +168,18 @@ public class Competition implements Comparable, java.io.Serializable {
 
 	@Override
 	public int compareTo(Object o) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(o instanceof Competition){
+			Competition temp = (Competition) o;
+			if(temp.identity == this.identity){
+				return 0;
+			} else if (this.identity < temp.identity){
+				return -1;
+			} else {
+				return +1;
+			}
+		} else {
+			return -1;
+		}
 	}
 
 }
