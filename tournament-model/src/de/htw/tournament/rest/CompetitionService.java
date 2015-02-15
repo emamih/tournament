@@ -19,6 +19,7 @@ import de.htw.tournament.model.Division;
 import de.htw.tournament.model.Document;
 import de.htw.tournament.model.Game;
 
+@Path("competitions")
 public class CompetitionService {
 
 	

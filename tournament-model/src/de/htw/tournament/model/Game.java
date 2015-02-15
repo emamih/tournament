@@ -11,6 +11,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
   */
@@ -30,10 +31,12 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 	@JoinColumn(name = "rootReference")
 	private Division division;
 	
+	@XmlTransient
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "rightRankableEntityReference", nullable = false)
 	private Rankableentity rankableentityByRightRankableEntityReference;
 	
+	@XmlTransient
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "leftRankableEntityReference", nullable = false)
 	private Rankableentity rankableentityByLeftRankableEntityReference;
