@@ -2,21 +2,23 @@ package de.htw.tournament.model;
 // default package
 // Generated 09.02.2015 16:09:37 by Hibernate Tools 4.3.1
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-
-import static javax.persistence.GenerationType.IDENTITY;
-
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  */
+@XmlRootElement
 @Entity
-@Table(name = "ticket", catalog = "tournament", uniqueConstraints = @UniqueConstraint(columnNames = "valueHash"))
-public class Ticket<T> implements Comparable<T>, java.io.Serializable {
+@Table(schema = "tournament")
+@SuppressWarnings("rawtypes")
+public class Ticket implements Comparable, java.io.Serializable {
 
 	
 	
@@ -26,7 +28,7 @@ public class Ticket<T> implements Comparable<T>, java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "identity", unique = true, nullable = false)
 	private Long identity;
 	

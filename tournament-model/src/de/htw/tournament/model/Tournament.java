@@ -28,7 +28,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlRootElement
 @Entity
 @Table(schema = "tournament", indexes=@Index(columnList = "logoReference"))
-@PrimaryKeyJoinColumn(name = "identity")
 @SuppressWarnings("rawtypes")
 public class Tournament implements Comparable {
 
@@ -56,7 +55,7 @@ public class Tournament implements Comparable {
 	private volatile Document logo;
 
 	@XmlTransient
-	@OneToMany(mappedBy = "tournamentReference", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "tournament", cascade = CascadeType.REMOVE)
 	private final Set<Competition> competitions;
 
 
