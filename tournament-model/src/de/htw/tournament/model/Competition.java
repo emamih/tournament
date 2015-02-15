@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -28,6 +29,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement
 @Entity
 @Table(schema = "tournament")
+@XmlAccessorType(XmlAccessType.FIELD)
 @SuppressWarnings("rawtypes")
 public class Competition implements Comparable, java.io.Serializable {
 
@@ -37,14 +39,14 @@ public class Competition implements Comparable, java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "identity", unique = true, nullable = false)
 	private Long identity;
 	
 	@XmlTransient
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "logoReference", nullable = false)
-	private Document document;
+	private Document logo;
 
 	@XmlTransient
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -72,7 +74,7 @@ public class Competition implements Comparable, java.io.Serializable {
 
 	public Competition(Document document, Tournament tournament, short season,
 			float pointsPerWin, float pointsPerDraw, float pointsPerLoss) {
-		this.document = document;
+		this.logo = document;
 		this.tournament = tournament;
 		this.season = season;
 		this.pointsPerWin = pointsPerWin;
@@ -83,7 +85,7 @@ public class Competition implements Comparable, java.io.Serializable {
 	public Competition(Document document, Tournament tournament, short season,
 			float pointsPerWin, float pointsPerDraw, float pointsPerLoss,
 			Set<Division> divisions) {
-		this.document = document;
+		this.logo = document;
 		this.tournament = tournament;
 		this.season = season;
 		this.pointsPerWin = pointsPerWin;
@@ -102,12 +104,12 @@ public class Competition implements Comparable, java.io.Serializable {
 	}
 
 	
-	public Document getDocument() {
-		return this.document;
+	public Document getLogo() {
+		return this.logo;
 	}
 
-	public void setDocument(Document document) {
-		this.document = document;
+	public void setLogo(Document logo) {
+		this.logo = logo;
 	}
 
 	

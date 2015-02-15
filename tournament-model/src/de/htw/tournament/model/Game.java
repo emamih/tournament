@@ -27,6 +27,7 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	@XmlTransient
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "rootReference")
 	private Division division;
@@ -41,15 +42,19 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 	@JoinColumn(name = "leftRankableEntityReference", nullable = false)
 	private Rankableentity rankableentityByLeftRankableEntityReference;
 	
+	@XmlElement
 	@Column(name = "leftOrdinal", nullable = false)
 	private Short leftOrdinal;
 	
+	@XmlElement
 	@Column(name = "leftScore")
 	private Short leftScore;
 	
+	@XmlElement
 	@Column(name = "rightOrdinal", nullable = false)
 	private Short rightOrdinal;
 	
+	@XmlElement
 	@Column(name = "rightScore")
 	private Short rightScore;
 
@@ -118,7 +123,6 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 		this.leftOrdinal = leftOrdinal;
 	}
 
-	@XmlElement
 	public Short getLeftScore() {
 		return this.leftScore;
 	}
@@ -136,7 +140,7 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 		this.rightOrdinal = rightOrdinal;
 	}
 
-	@XmlElement
+	
 	public Short getRightScore() {
 		return this.rightScore;
 	}
@@ -145,12 +149,11 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 		this.rightScore = rightScore;
 	}
 	
-	@XmlElement
 	public Competitor getLeftCompetitor() {
 		return (rankableentityByLeftRankableEntityReference instanceof Competitor) 
 				? (Competitor) rankableentityByLeftRankableEntityReference : null;
 	}
-	@XmlElement
+	
 	public Competitor getRightCompetitor(){
 		return (rankableentityByRightRankableEntityReference instanceof Competitor) 
 				? (Competitor) rankableentityByRightRankableEntityReference : null;

@@ -49,7 +49,7 @@ public class CompetitionService {
 			final Competition competiton = entityManager.find(Competition.class, competitorIdentity);
 			if (competiton == null) return Response.status(Status.NOT_FOUND).build();
 
-			final Document avatar = competiton.getDocument();
+			final Document avatar = competiton.getLogo();
 			return Response.ok(avatar.getBody(), avatar.getType()).build();
 		} finally {
 			try { entityManager.close(); } catch (final Exception exception) {}

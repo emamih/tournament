@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -23,34 +25,38 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * This class models person entities.
+ * This class models Tournament entities.
  */
 @XmlRootElement
 @Entity
-@Table(schema = "tournament", indexes=@Index(columnList = "logoReference"))
+@Table(schema = "tournament")
 @SuppressWarnings("rawtypes")
-public class Tournament implements Comparable {
+public class Tournament implements Comparable, java.io.Serializable {
 
-	@XmlAttribute
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@XmlElement
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private final long identity;
 	
-	@XmlAttribute
-	@Column(nullable = false, updatable = false, length = 15, unique = true)
+	@XmlElement
+	@Column(nullable = false, updatable = false, length = 64)
 	private volatile String association;
 	
-	@XmlAttribute
-	@Column(nullable = false, updatable = false, length = 15, unique = true)
+	@XmlElement
+	@Column(nullable = false, updatable = false, length = 64)
 	private volatile String alias;
 	
-	@XmlAttribute
-	@Column(nullable = true, updatable = false, length = 15, unique = true)
+	@XmlElement
+	@Column(nullable = true, updatable = false, length = 127)
 	private volatile String qualifier;
 
-	@XmlAttribute(name = "logoReference")
-	@XmlJavaTypeAdapter(EntityIdentityAdapter.class)
-	@ManyToOne
+	@XmlTransient
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "logoReference", nullable = true, updatable = true)
 	private volatile Document logo;
 
