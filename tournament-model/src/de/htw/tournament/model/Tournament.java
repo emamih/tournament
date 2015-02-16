@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -26,6 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @Entity
 @Table(schema = "tournament")
+@XmlAccessorType(XmlAccessType.FIELD)
 @SuppressWarnings("rawtypes")
 public class Tournament implements Comparable, java.io.Serializable {
 
@@ -140,14 +143,24 @@ public class Tournament implements Comparable, java.io.Serializable {
 
 
 	public Set<Competition> getCompetitions() {
-		return competitions;
+		return Collections.unmodifiableSet(this.competitions);
 	}
 
 
 	@Override
 	public int compareTo(Object o) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(o instanceof Tournament){
+			Tournament temp = (Tournament) o;
+			if(temp.identity == this.identity){
+				return 0;
+			} else if (this.identity < temp.identity){
+				return -1;
+			} else {
+				return +1;
+			}
+		} else {
+			return -1;
+		}
 	}
 	
 	

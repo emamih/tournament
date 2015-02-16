@@ -45,8 +45,8 @@ public class CompetitorService {
 			final Competitor competitor = entityManager.find(Competitor.class, competitorIdentity);
 			if (competitor == null) return Response.status(Status.NOT_FOUND).build();
 
-			final Document avatar = competitor.getDocument();
-			return Response.ok(avatar.getBody(), avatar.getType()).build();
+			final Document logo = competitor.getDocument();
+			return Response.ok(logo.getBody(), logo.getType()).build();
 		} finally {
 			try { entityManager.close(); } catch (final Exception exception) {}
 		}
