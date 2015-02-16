@@ -67,7 +67,6 @@ public class Competition implements Comparable, java.io.Serializable {
 	private Set<Division> divisions = new HashSet<Division>(0);
 
 	
-	//TODO
 	public Competition() {
 	}
 

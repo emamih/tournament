@@ -17,19 +17,14 @@ public class ScoreSheetEntry implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-//	@Column(name = "competitorReference", nullable = false)
 	private long competitorReference;
 	
-//	@Column(name = "rootReference")
 	private Long rootReference;
 	
-//	@Column(name = "score", precision = 27, scale = 0)
 	private BigDecimal score;
 	
-//	@Column(name = "opponentScore", precision = 27, scale = 0)
 	private BigDecimal opponentScore;
 	
-//	@Column(name = "points", precision = 22, scale = 0)
 	private Double points;
 
 	public ScoreSheetEntry() {
