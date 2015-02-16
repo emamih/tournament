@@ -28,7 +28,7 @@ public class Division extends Rankableentity implements java.io.Serializable {
 	@Column(name = "alias", nullable = false, length = 1)
 	private char alias;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "division")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "root")
 	private Set<Game> games = new HashSet<Game>(0);
 
 	public Division() {

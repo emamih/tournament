@@ -26,7 +26,7 @@ import de.htw.tournament.model.Tournament;
 public class TournamentService {
 
 //	static private final Charset UTF8 = Charset.forName("UTF-8");
-	static private final String CRITERIA_QUERY_JPQL = "select p from Division as p where "
+	static private final String CRITERIA_QUERY_JPQL = "select p from Tournament as p where "
 		+ "(:association is null or p.association = :association) and "
 		+ "(:alias is null or p.alias = :alias) and "
 		+ "(:identity is null or p.identity = :identity) and "
@@ -35,10 +35,10 @@ public class TournamentService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Collection<Tournament> queryCriteria (
-		@QueryParam("association") final boolean association,
-		@QueryParam("alias") final boolean alias,
-		@QueryParam("identity") final boolean identity,
-		@QueryParam("qualifier") final boolean qualifier,
+		@QueryParam("association") final String association,
+		@QueryParam("alias") final String alias,
+		@QueryParam("identity") final int identity,
+		@QueryParam("qualifier") final String qualifier,
 		@QueryParam("resultOffset") final int resultOffset,
 		@QueryParam("resultLength") final int resultLength
 	) {
@@ -48,10 +48,10 @@ public class TournamentService {
 			final TypedQuery<Tournament> query = entityManager.createQuery(CRITERIA_QUERY_JPQL, Tournament.class);
 			if (resultOffset >= 0) query.setFirstResult(resultOffset);
 			if (resultLength >= 0) query.setMaxResults(resultLength);
-			query.setParameter("competition", association);
+			query.setParameter("association", association);
 			query.setParameter("alias", alias);
-			query.setParameter("identity", identity);
-			query.setParameter("discriminator", qualifier);
+			query.setParameter("identity", identity==0?null:identity);
+			query.setParameter("qualifier", qualifier);
 			
 			return query.getResultList();
 

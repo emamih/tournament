@@ -1,19 +1,19 @@
 /**
- * de.sb.tournament.Controller: abstract controller.
+ * de.htw.tournament.Controller: abstract controller.
  * Copyright (c) 2015-2015 Sascha Baumeister
  */
 "use strict";
 
 this.de = this.de || {};
 this.de.sb = this.de.sb || {};
-this.de.sb.tournament = this.de.sb.tournament || {};
+this.de.htw.tournament = this.de.htw.tournament || {};
 (function () {
 
 	/**
 	 * Creates an "abstract" controller.
 	 * @param viewOrdinal {Number} the ordinal of the view associated with this controller
 	 */
-	de.sb.tournament.Controller = function (viewOrdinal) {
+	de.htw.tournament.Controller = function (viewOrdinal) {
 		this.viewOrdinal = viewOrdinal;
 	}
 
@@ -23,7 +23,7 @@ this.de.sb.tournament = this.de.sb.tournament || {};
 	 * view's menu item as selected, and removing the main element's
 	 * children.
 	 */
-	de.sb.tournament.Controller.prototype.display = function () {
+	de.htw.tournament.Controller.prototype.display = function () {
 		var menuElements = document.querySelectorAll("nav:last-of-type li");
 
 		for (var viewOrdinal = 0; viewOrdinal < menuElements.length; ++viewOrdinal) {
@@ -40,13 +40,29 @@ this.de.sb.tournament = this.de.sb.tournament || {};
 		}
 	}
 
+	de.htw.tournament.Controller.prototype.refreshCompetitionSlider = function (sliderElement, competitionIdentity, clickAction) {
+		while (sliderElement.lastChild) sliderElement.removeChild(sliderElement.lastChild);
 
+		var self = this;
+		compititionIdentity.forEach( function (competitionIdentity) {
+			self.entityCache.resolve(competitionIdentity, function (competition) {
+				var imageElement = document.createElement("img");
+				imageElement.src = "/services/tournaments/" + competition.identity + "/logo";
+
+				var anchorElement = document.createElement("a");
+				anchorElement.appendChild(imageElement);
+//				anchorElement.appendChild(document.createTextNode(person.alias));
+//				anchorElement.title = person.name.given + " " + person.name.family;
+				anchorElement.addEventListener("click", clickAction.bind(self, competition.identity));
+				sliderElement.appendChild(anchorElement);
+			});
+		});
 	/**
 	 * Displays the given HTTP status.
 	 * @param code {Number} the status code
 	 * @param message {String} the status message
 	 */
-	de.sb.tournament.Controller.prototype.displayStatus = function (code, message) {
+	de.htw.tournament.Controller.prototype.displayStatus = function (code, message) {
 		var outputElement = document.querySelector("body > footer output");
 		while (outputElement.lastChild) {
 			outputElement.removeChild(outputElement.lastChild);
