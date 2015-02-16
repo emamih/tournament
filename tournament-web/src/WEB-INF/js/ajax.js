@@ -3,7 +3,7 @@
  * Copyright (c) 2013-2015 Sascha Baumeister
  */
 "use strict";
-
+//TODO unser Package?
 this.de = this.de || {};
 this.de.sb = this.de.sb || {};
 this.de.sb.util = this.de.sb.util || {};

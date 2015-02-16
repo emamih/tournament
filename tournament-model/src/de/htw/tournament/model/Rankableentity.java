@@ -40,6 +40,8 @@ public abstract class Rankableentity implements java.io.Serializable {
 	@Column(name = "discriminator", nullable = false, length = 11)
 	private String discriminator;
 	
+	//TODO private Game LeftDerivedGame
+	//TODO private Game RightDerivedGame
 //	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rankableentityByRightRankableEntityReference")
 //	private Set<Game> gamesForRightRankableEntityReference = new HashSet<Game>(
 //			0);

@@ -57,7 +57,9 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 	@XmlElement
 	@Column(name = "rightScore")
 	private Short rightScore;
-
+	//TODO private Division root
+	//TODO refactor name: rankableentityByRightRankableEntityReference rightRankableEntity
+	//TODO refactor name: rankableentityByLeftRankableEntityReference leftRankableEntity
 	public Game() {
 	}
 
