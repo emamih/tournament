@@ -2,6 +2,8 @@ package de.htw.tournament.model;
 // default package
 // Generated 09.02.2015 16:09:37 by Hibernate Tools 4.3.1
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -66,7 +68,7 @@ public abstract class Rankableentity implements java.io.Serializable {
 		this.discriminator = discriminator;
 	}
 
-	public abstract ScoreSheetEntry getScoreSheet();
+	public abstract Collection<ScoreSheetEntry> getScoreSheet();
 	
 	public Long getIdentity() {
 		return this.identity;

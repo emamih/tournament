@@ -93,7 +93,7 @@ public class CompetitionService {
 			final Collection<Game> derived_games = new HashSet<Game>();
 			
 			for(Division division : divisions){
-				derived_games.addAll(division.getGames());
+				derived_games.addAll(division.getRootGames());
 			}
 			
 			final GenericEntity<?> genericEntity = new GenericEntity<Collection<Division>>(divisions) {};

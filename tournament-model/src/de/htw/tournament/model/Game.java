@@ -2,16 +2,25 @@ package de.htw.tournament.model;
 // default package
 // Generated 09.02.2015 16:09:37 by Hibernate Tools 4.3.1
 
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.TypedQuery;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import de.htw.tournament.rest.ServiceProvider;
 
 /**
   */
@@ -151,20 +160,68 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 		this.rightScore = rightScore;
 	}
 	
-	public Competitor getLeftCompetitor() {
-		return (leftRankableEntity instanceof Competitor) 
-				? (Competitor) leftRankableEntity : null;
-	}
+//	public Competitor getLeftCompetitor() {
+//		try {
+//			 leftRankableEntity.getScoreSheet();
+//		} catch (Exception e) {
+//		}
+//		return (leftRankableEntity instanceof Competitor) 
+//				? (Competitor) leftRankableEntity : null;
+//	}
+//	
+//	public Competitor getRightCompetitor(){
+//		return (rightRankableEntity instanceof Competitor) 
+//				? (Competitor) rightRankableEntity : null;
+//	}
 	
-	public Competitor getRightCompetitor(){
-		return (rightRankableEntity instanceof Competitor) 
-				? (Competitor) rightRankableEntity : null;
-	}
+	public Competitor getRightCompetitor () {
+		   final Collection<ScoreSheetEntry> scoreSheet = this.rightRankableEntity.getScoreSheet();
+		   if (this.rightOrdinal >= scoreSheet.size()) return null;
+		   return ((ScoreSheetEntry)scoreSheet.toArray()[this.rightOrdinal]).getCompetitor();
+		}
+
+		public Competitor getLeftCompetitor () {
+		   final Collection<ScoreSheetEntry> scoreSheet = this.leftRankableEntity.getScoreSheet();
+		   if (this.leftOrdinal >= scoreSheet.size()) return null;
+		   return ((ScoreSheetEntry)scoreSheet.toArray()[this.leftOrdinal]).getCompetitor();
+		}
 
 	@Override
-	public ScoreSheetEntry getScoreSheet() {
+	public Collection<ScoreSheetEntry> getScoreSheet() {
 		// TODO Auto-generated method stub
-		return null;
+		
+		final String CRITERIA_QUERY_JPQL = "select "
+				+ " c, d, ds.score, ds.opponentScore, ds.points "
+				+ "from Divisionscoresheetentry ds, Division d, Competitor c "
+				+ "where "
+				+ " ds.rootReference = d.identity and ds.competitorReference = c.identity and "
+				+ "(:rootReference is null or ds.rootReference = :rootReference)";
+		
+		final EntityManager entityManager = ServiceProvider.TOURNAMENT_FACTORY.createEntityManager();
+
+		try {
+			
+			final TypedQuery<Object[]> query = entityManager.createQuery(CRITERIA_QUERY_JPQL, Object[].class);
+			query.setParameter("rootReference", this.root.getIdentity());
+			
+			final SortedSet<ScoreSheetEntry> scoresheets = new TreeSet<>();
+			Collection<Object[]> results = query.getResultList();
+			for (Object[] result : results) {
+			   Competitor competitor = (Competitor) result[0];
+			   Division root = (Division) result[1];
+			   Integer score = ((BigDecimal) result[2]).intValue();
+			   Integer opponentScore = ((BigDecimal) result[3]).intValue();
+			   Double points = (Double) result[4];
+			   ScoreSheetEntry sce = new ScoreSheetEntry(competitor, root, score, opponentScore, points);
+			   scoresheets.add(sce);
+			}
+			
+			return scoresheets;
+
+		} finally {
+			try { entityManager.close(); } catch (final Exception exception) {}
+		}
+		
 	}
 
 }
