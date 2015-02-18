@@ -3,10 +3,9 @@
  * Copyright (c) 2013-2015 Sascha Baumeister
  */
 "use strict";
-
 this.de = this.de || {};
-this.de.sb = this.de.sb || {};
-this.de.sb.util = this.de.sb.util || {};
+this.de.htw = this.de.htw || {};
+this.de.htw.tournament = this.de.htw.tournament || {};
 (function () {
 
 	/**

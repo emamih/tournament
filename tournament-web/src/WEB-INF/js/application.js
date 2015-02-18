@@ -5,30 +5,30 @@
 "use strict";
 
 this.de = this.de || {};
-this.de.sb = this.de.sb || {};
-this.de.sb.tournament = this.de.sb.tournament || {};
+this.de.htw = this.de.htw || {};
+this.de.htw.tournament = this.de.htw.tournament || {};
 (function () {
 
 	/**
 	 * The tournament application singleton maintaining the view controllers.
 	 */
-	de.sb.tournament.APPLICATION = {
+	de.htw.tournament.APPLICATION = {
 		competitionIdentity: null,
-		navigationController: "NavigationController" in de.sb.tournament
-			? new de.sb.tournament.NavigationController()
-			: new de.sb.tournament.Controller(-1),
-		rootGameController: "RootGameController" in de.sb.tournament
-			? new de.sb.tournament.RootGameController()
-			: new de.sb.tournament.Controller(0),
-		scoreSheetController: "ScoreSheetController" in de.sb.tournament
-			? new de.sb.tournament.ScoreSheetController()
-			: new de.sb.tournament.Controller(1),
-		derivedGameController: "DerivedGameController" in de.sb.tournament
-			? new de.sb.tournament.DerivedGameController()
-			: new de.sb.tournament.Controller(2),
+		navigationController: "NavigationController" in de.htw.tournament
+			? new de.htw.tournament.NavigationController()
+			: new de.htw.tournament.Controller(-1),
+		rootGameController: "RootGameController" in de.htw.tournament
+			? new de.htw.tournament.RootGameController()
+			: new de.htw.tournament.Controller(0),
+		scoreSheetController: "ScoreSheetController" in de.htw.tournament
+			? new de.htw.tournament.ScoreSheetController()
+			: new de.htw.tournament.Controller(1),
+		derivedGameController: "DerivedGameController" in de.htw.tournament
+			? new de.htw.tournament.DerivedGameController()
+			: new de.htw.tournament.Controller(2),
 
 	}
-	var APPLICATION = de.sb.tournament.APPLICATION;
+	var APPLICATION = de.htw.tournament.APPLICATION;
 
 
 	/**

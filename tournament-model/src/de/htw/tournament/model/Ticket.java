@@ -2,8 +2,6 @@ package de.htw.tournament.model;
 // default package
 // Generated 09.02.2015 16:09:37 by Hibernate Tools 4.3.1
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

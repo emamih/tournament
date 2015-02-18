@@ -30,17 +30,17 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 	@XmlTransient
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "rootReference")
-	private Division division;
+	private Division root;
 	
 	@XmlTransient
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "rightRankableEntityReference", nullable = false)
-	private Rankableentity rankableentityByRightRankableEntityReference;
+	private Rankableentity rightRankableEntity;
 	
 	@XmlTransient
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "leftRankableEntityReference", nullable = false)
-	private Rankableentity rankableentityByLeftRankableEntityReference;
+	private Rankableentity leftRankableEntity;
 	
 	@XmlElement
 	@Column(name = "leftOrdinal", nullable = false)
@@ -57,16 +57,18 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 	@XmlElement
 	@Column(name = "rightScore")
 	private Short rightScore;
-
+	
+	
+	//TODO private Division root
 	public Game() {
 	}
 
-	public Game(Rankableentity rankableentityByRightRankableEntityReference,
-			Rankableentity rankableentityByLeftRankableEntityReference,
+	public Game(Rankableentity rightRankableEntity,
+			Rankableentity leftRankableEntity,
 			Rankableentity rankableentityByIdentity, Short leftOrdinal,
 			Short rightOrdinal) {
-		this.rankableentityByRightRankableEntityReference = rankableentityByRightRankableEntityReference;
-		this.rankableentityByLeftRankableEntityReference = rankableentityByLeftRankableEntityReference;
+		this.rightRankableEntity = rightRankableEntity;
+		this.leftRankableEntity = leftRankableEntity;
 		this.leftOrdinal = leftOrdinal;
 		this.rightOrdinal = rightOrdinal;
 	}
@@ -76,9 +78,9 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 			Rankableentity rankableentityByLeftRankableEntityReference,
 			Rankableentity rankableentityByIdentity, Short leftOrdinal,
 			Short leftScore, Short rightOrdinal, Short rightScore) {
-		this.division = division;
-		this.rankableentityByRightRankableEntityReference = rankableentityByRightRankableEntityReference;
-		this.rankableentityByLeftRankableEntityReference = rankableentityByLeftRankableEntityReference;
+		this.root = division;
+		this.rightRankableEntity = rankableentityByRightRankableEntityReference;
+		this.leftRankableEntity = rankableentityByLeftRankableEntityReference;
 		this.leftOrdinal = leftOrdinal;
 		this.leftScore = leftScore;
 		this.rightOrdinal = rightOrdinal;
@@ -86,32 +88,32 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 	}
 
 	
-	public Division getDivision() {
-		return this.division;
+	public Division getRoot() {
+		return this.root;
 	}
 
-	public void setDivision(Division division) {
-		this.division = division;
+	public void setRoot(Division division) {
+		this.root = division;
 	}
 
 	
 	public Rankableentity getRankableentityByRightRankableEntityReference() {
-		return this.rankableentityByRightRankableEntityReference;
+		return this.rightRankableEntity;
 	}
 
 	public void setRankableentityByRightRankableEntityReference(
 			Rankableentity rankableentityByRightRankableEntityReference) {
-		this.rankableentityByRightRankableEntityReference = rankableentityByRightRankableEntityReference;
+		this.rightRankableEntity = rankableentityByRightRankableEntityReference;
 	}
 
 	
 	public Rankableentity getRankableentityByLeftRankableEntityReference() {
-		return this.rankableentityByLeftRankableEntityReference;
+		return this.leftRankableEntity;
 	}
 
 	public void setRankableentityByLeftRankableEntityReference(
 			Rankableentity rankableentityByLeftRankableEntityReference) {
-		this.rankableentityByLeftRankableEntityReference = rankableentityByLeftRankableEntityReference;
+		this.leftRankableEntity = rankableentityByLeftRankableEntityReference;
 	}
 
 	
@@ -150,13 +152,13 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 	}
 	
 	public Competitor getLeftCompetitor() {
-		return (rankableentityByLeftRankableEntityReference instanceof Competitor) 
-				? (Competitor) rankableentityByLeftRankableEntityReference : null;
+		return (leftRankableEntity instanceof Competitor) 
+				? (Competitor) leftRankableEntity : null;
 	}
 	
 	public Competitor getRightCompetitor(){
-		return (rankableentityByRightRankableEntityReference instanceof Competitor) 
-				? (Competitor) rankableentityByRightRankableEntityReference : null;
+		return (rightRankableEntity instanceof Competitor) 
+				? (Competitor) rightRankableEntity : null;
 	}
 
 	@Override
