@@ -1,6 +1,7 @@
 package de.htw.tournament.rest;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
@@ -91,7 +92,7 @@ public class DivisionService {
 			if (division == null) return Response.status(Status.NOT_FOUND).build();
 			
 			// Sort by ascending identity, implicitly avoiding lazy initialization during marshaling!
-			final Collection<Game> games = new TreeSet<>(division.getRootGames());
+			final Collection<Game> games = new HashSet<>(division.getRootGames());
 			for(Game temp : games){
 				temp.getLeftCompetitor();
 				temp.getRightCompetitor();
@@ -113,9 +114,11 @@ public class DivisionService {
 
 			Division division = entityManager.find(Division.class, divisionIdentity);
 			if (division == null) return Response.status(Status.NOT_FOUND).build();
-			
+//			division.getLeftDerivedGames();
+//			division.getRightDerivedGames();
 			// Sort by ascending identity, implicitly avoiding lazy initialization during marshaling!
-			final Collection<Game> games = new TreeSet<>(division.getRootGames());
+			final Collection<Game> games = new HashSet<>(division.getLeftDerivedGames());
+			games.addAll(division.getRightDerivedGames());
 			for(Game temp : games){
 				temp.getLeftCompetitor();
 				temp.getRightCompetitor();
