@@ -41,16 +41,40 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 				tournaments.forEach( function (tournament) {
 						tournamentsIdentities.push(tournament.identity);
 				});
-				self.refreshCompetitionSlider(logoSliderElements[0], tournamentsIdentities, "tournaments");
+				self.refreshSlider(logoSliderElements[0], tournamentsIdentities, "tournaments");
 				
 			}
 		});
 		
-		var resource = "/services/tournaments/1/competitions";
+		self.refreshCompetitionSlider("1");
 		
-		de.htw.tournament.AJAX.invoke(resource, "GET", {"Accept": "application/json"}, null, this.sessionContext, function (request) {
-			self.displayStatus(request.status, request.statusText);
+		
+	}
+	
+	de.htw.tournament.NavigationController.prototype.refreshSlider = function (sliderElement, identities, pathelEment) {
+		while (sliderElement.lastChild) sliderElement.removeChild(sliderElement.lastChild);
 
+		var self = this;
+		identities.forEach( function (identity) {
+				var imageElement = document.createElement("img");
+				imageElement.src = "/services/"+pathelEment+"/" + identity + "/logo";
+
+				var anchorElement = document.createElement("a");
+				anchorElement.appendChild(imageElement);
+				
+//				anchorElement.appendChild(document.createTextNode(person.alias));
+//				anchorElement.title = person.name.given + " " + person.name.family;
+				if(pathelEment=="tournaments")anchorElement.onclick = self.refreshCompetitionSlider.bind(self, identity);
+				sliderElement.appendChild(anchorElement);
+		});
+}
+	
+	de.htw.tournament.NavigationController.prototype.refreshCompetitionSlider = function (tournamentId) {
+		var logoSliderElements = document.querySelectorAll("div.image-slider");
+		var resource = "/services/tournaments/"+tournamentId+"/competitions";
+		var self = this;
+		de.htw.tournament.AJAX.invoke(resource, "GET", {"Accept": "application/json"}, null, this.sessionContext, function (request) {
+	
 			var competitionIdentities = [];
 			if (request.status === 200) {
 				var responseBody = JSON.parse(request.responseText).competitions;
@@ -59,26 +83,9 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 				competitions.forEach( function (competition) {
 					competitionIdentities.push(competition.identity);
 				});
-				self.refreshCompetitionSlider(logoSliderElements[1], competitionIdentities, "competitions");
+				self.refreshSlider(logoSliderElements[1], competitionIdentities, "competitions");
 			}
 		});
-	}
-		
-	de.htw.tournament.NavigationController.prototype.refreshCompetitionSlider = function (sliderElement, identities, pathelEment) {
-			while (sliderElement.lastChild) sliderElement.removeChild(sliderElement.lastChild);
-
-			var self = this;
-			identities.forEach( function (identity) {
-					var imageElement = document.createElement("img");
-					imageElement.src = "/services/"+pathelEment+"/" + identity + "/logo";
-
-					var anchorElement = document.createElement("a");
-					anchorElement.appendChild(imageElement);
-//					anchorElement.appendChild(document.createTextNode(person.alias));
-//					anchorElement.title = person.name.given + " " + person.name.family;
-//					anchorElement.addEventListener("click", clickAction.bind(self, competition.identity));
-					sliderElement.appendChild(anchorElement);
-			});
 	}
 
 	
