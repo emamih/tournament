@@ -1,5 +1,5 @@
 /**
- * de.sb.broker.APPLICATION: tournament application singleton.
+ * de.htw.broker.APPLICATION: tournament application singleton.
  * Copyright (c) 2015-2015 Sascha Baumeister
  */
 "use strict";

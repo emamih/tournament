@@ -15,15 +15,18 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 	 * Creates a new auctions controller that is derived from an abstract controller.
 	 * @param sessionContext {de.htw.tournament.SessionContext} a session context
 	 */
-	de.htw.tournament.ClosedAuctionsController = function (sessionContext) {
+	de.htw.tournament.DerivedGameController = function (sessionContext) {
 		SUPER.call(this, 2, sessionContext);
 	}
-	de.htw.tournament.ClosedAuctionsController.prototype = Object.create(SUPER.prototype);
-	de.htw.tournament.ClosedAuctionsController.prototype.constructor = de.htw.tournament.ClosedAuctionsController;
+	de.htw.tournament.DerivedGameController.prototype = Object.create(SUPER.prototype);
+	de.htw.tournament.DerivedGameController.prototype.constructor = de.htw.tournament.ClosedAuctionsController;
 
 
 	/**
 	 * Displays the associated view.
 	 */
-	de.htw.tournament.ClosedAuctionsController.prototype.display = function () {
-}
+	de.htw.tournament.DerivedGameController.prototype.display = function () {
+		
+	
+	}
+} ());

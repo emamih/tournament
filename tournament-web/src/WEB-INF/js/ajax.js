@@ -1,5 +1,5 @@
 /**
- * de.sb.util.AJAX: XmlHttpRequest invocation singleton.
+ * de.htw.util.AJAX: XmlHttpRequest invocation singleton.
  * Copyright (c) 2013-2015 Sascha Baumeister
  */
 "use strict";
@@ -11,7 +11,7 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 	/**
 	 * AJAX singleton for simplified XmlHttpRequest processing.
 	 */
-	de.sb.util.AJAX = new function() {
+	de.htw.tournament.AJAX = new function() {
 
 		/**
 		 * Sends an XmlHttpRequest with the given arguments. If a callback function is specified,

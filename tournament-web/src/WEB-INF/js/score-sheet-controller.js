@@ -1,5 +1,5 @@
 /**
- * de.sb.broker.Controller: abstract controller.
+ * de.htw.broker.Controller: abstract controller.
  * Copyright (c) 2013-2015 Sascha Baumeister
  */
 "use strict";
@@ -12,20 +12,20 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 
 	/**
 	 * Creates a new auctions controller that is derived from an abstract controller.
-	 * @param sessionContext {de.sb.broker.SessionContext} a session context
+	 * @param sessionContext {de.htw.broker.SessionContext} a session context
 	 */
-	de.htw.tournament.ScoreSheetConstroller = function (sessionContext) {
+	de.htw.tournament.ScoreSheetController = function (sessionContext) {
 		SUPER.call(this, 2, sessionContext);
 	}
-	de.htw.tournament.ScoreSheetConstroller.prototype = Object.create(SUPER.prototype);
-	de.htw.tournament.ScoreSheetConstroller.prototype.constructor =de.htw.tournament.ScoreSheetConstroller;
+	de.htw.tournament.ScoreSheetController.prototype = Object.create(SUPER.prototype);
+	de.htw.tournament.ScoreSheetController.prototype.constructor =de.htw.tournament.ScoreSheetController;
 
 
 	/**
 	 * Displays the associated view.
 	 */
-	de.htw.tournament.ScoreSheetConstroller.prototype.display = function () {
+	de.htw.tournament.ScoreSheetController.prototype.display = function () {
 		
 	}
 	
-}
+} ());
