@@ -34,7 +34,7 @@ import de.htw.tournament.rest.ServiceProvider;
 @Table(schema = "tournament")
 @XmlAccessorType(XmlAccessType.FIELD)
 @PrimaryKeyJoinColumn(name = "divisionIdentity")
-public class Division extends Rankableentity implements java.io.Serializable {
+public class Division extends Rankableentity implements java.io.Serializable, Comparable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -45,7 +45,7 @@ public class Division extends Rankableentity implements java.io.Serializable {
 	
 	@XmlElement
 	@Column(name = "alias", nullable = false, length = 20)
-	private char alias;
+	private String alias;
 	
 	@XmlTransient
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "root")
@@ -55,13 +55,13 @@ public class Division extends Rankableentity implements java.io.Serializable {
 	}
 
 	public Division(Competition competition, Rankableentity rankableentity,
-			char alias) {
+			String alias) {
 		this.competition = competition;
 		this.alias = alias;
 	}
 
 	public Division(Competition competition, Rankableentity rankableentity,
-			char alias, Set<Game> games) {
+			String alias, Set<Game> games) {
 		this.competition = competition;
 		this.alias = alias;
 		this.rootGames = games;
@@ -77,11 +77,11 @@ public class Division extends Rankableentity implements java.io.Serializable {
 	}
 
 	
-	public char getAlias() {
+	public String getAlias() {
 		return this.alias;
 	}
 
-	public void setAlias(char alias) {
+	public void setAlias(String alias) {
 		this.alias = alias;
 	}
 
@@ -155,6 +155,15 @@ public class Division extends Rankableentity implements java.io.Serializable {
 //		}
 //		
 //		return null;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		if(o instanceof Division){
+			Division temp = (Division) o;
+			return this.getAlias().compareTo(temp.getAlias());
+		}
+		return +1;
 	}
 
 }

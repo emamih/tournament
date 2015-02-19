@@ -9,7 +9,7 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 	 * @param sessionContext {de.htw.tournament.SessionContext} a session context
 	 */
 	de.htw.tournament.NavigationController = function (sessionContext) {
-		SUPER.call(this, 2, sessionContext);
+		SUPER.call(this, -1);
 	}
 	de.htw.tournament.NavigationController.prototype = Object.create(SUPER.prototype);
 	de.htw.tournament.NavigationController.prototype.constructor = de.htw.tournament.NavigationController;
@@ -65,6 +65,10 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 //				anchorElement.appendChild(document.createTextNode(person.alias));
 //				anchorElement.title = person.name.given + " " + person.name.family;
 				if(pathelEment=="tournaments")anchorElement.onclick = self.refreshCompetitionSlider.bind(self, identity);
+				else {
+					anchorElement.title = identity;
+					anchorElement.onclick = self.selectImage.bind(self, anchorElement);
+				}
 				sliderElement.appendChild(anchorElement);
 		});
 }
@@ -86,6 +90,16 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 				self.refreshSlider(logoSliderElements[1], competitionIdentities, "competitions");
 			}
 		});
+	}
+	
+	de.htw.tournament.NavigationController.prototype.selectImage = function (anchorElement) {
+		var competitionsSliderElements = document.querySelectorAll("div.image-slider")[1];
+		var menuElements = competitionsSliderElements.querySelectorAll("a");
+
+		for (var run = 0; run < menuElements.length; ++run) {
+				menuElements[run].classList.remove("selected");
+		}
+		anchorElement.classList.add("selected");
 	}
 
 	

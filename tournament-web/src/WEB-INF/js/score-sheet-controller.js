@@ -15,7 +15,7 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 	 * @param sessionContext {de.htw.broker.SessionContext} a session context
 	 */
 	de.htw.tournament.ScoreSheetController = function (sessionContext) {
-		SUPER.call(this, 2, sessionContext);
+		SUPER.call(this, 1);
 	}
 	de.htw.tournament.ScoreSheetController.prototype = Object.create(SUPER.prototype);
 	de.htw.tournament.ScoreSheetController.prototype.constructor =de.htw.tournament.ScoreSheetController;
@@ -25,7 +25,8 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 	 * Displays the associated view.
 	 */
 	de.htw.tournament.ScoreSheetController.prototype.display = function () {
-		
+		SUPER.prototype.display.call(this);
+		this.displayStatus(200, "OK");
 	}
 	
 } ());
