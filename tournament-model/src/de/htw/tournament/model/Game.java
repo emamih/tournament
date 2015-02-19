@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.TypedQuery;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -28,6 +30,7 @@ import de.htw.tournament.rest.ServiceProvider;
 @Entity
 @Table(schema = "tournament")
 @PrimaryKeyJoinColumn(name = "gameIdentity")
+@XmlAccessorType(XmlAccessType.NONE)
 //TODO änderung in db übernehemen
 public class Game  extends Rankableentity implements java.io.Serializable{
 
@@ -36,34 +39,34 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@XmlTransient
+//	@XmlTransient
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "rootReference")
 	private Division root;
 	
-	@XmlTransient
+//	@XmlTransient
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "rightRankableEntityReference", nullable = false)
 	private Rankableentity rightRankableEntity;
 	
-	@XmlTransient
+//	@XmlTransient
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "leftRankableEntityReference", nullable = false)
 	private Rankableentity leftRankableEntity;
 	
-	@XmlElement
+//	@XmlElement
 	@Column(name = "leftOrdinal", nullable = false)
 	private Short leftOrdinal;
 	
-	@XmlElement
+//	@XmlElement
 	@Column(name = "leftScore")
 	private Short leftScore;
 	
-	@XmlElement
+//	@XmlElement
 	@Column(name = "rightOrdinal", nullable = false)
 	private Short rightOrdinal;
 	
-	@XmlElement
+//	@XmlElement
 	@Column(name = "rightScore")
 	private Short rightScore;
 	
@@ -133,7 +136,8 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 	public void setLeftOrdinal(Short leftOrdinal) {
 		this.leftOrdinal = leftOrdinal;
 	}
-
+	
+	@XmlElement
 	public Short getLeftScore() {
 		return this.leftScore;
 	}
@@ -151,7 +155,7 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 		this.rightOrdinal = rightOrdinal;
 	}
 
-	
+	@XmlElement
 	public Short getRightScore() {
 		return this.rightScore;
 	}
@@ -173,18 +177,19 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 //		return (rightRankableEntity instanceof Competitor) 
 //				? (Competitor) rightRankableEntity : null;
 //	}
-	
+	@XmlElement
 	public Competitor getRightCompetitor () {
 		   final Collection<ScoreSheetEntry> scoreSheet = this.rightRankableEntity.getScoreSheet();
 		   if (this.rightOrdinal >= scoreSheet.size()) return null;
 		   return ((ScoreSheetEntry)scoreSheet.toArray()[this.rightOrdinal]).getCompetitor();
-		}
-
-		public Competitor getLeftCompetitor () {
+	}
+	
+	@XmlElement
+	public Competitor getLeftCompetitor () {
 		   final Collection<ScoreSheetEntry> scoreSheet = this.leftRankableEntity.getScoreSheet();
 		   if (this.leftOrdinal >= scoreSheet.size()) return null;
 		   return ((ScoreSheetEntry)scoreSheet.toArray()[this.leftOrdinal]).getCompetitor();
-		}
+	}
 
 	@Override
 	public Collection<ScoreSheetEntry> getScoreSheet() {

@@ -87,6 +87,10 @@ public class Division extends Rankableentity implements java.io.Serializable, Co
 
 	
 	public Set<Game> getRootGames() {
+		for(Game game : this.rootGames){
+			game.getLeftCompetitor();
+			game.getRightCompetitor();
+		}
 		return this.rootGames;
 	}
 
