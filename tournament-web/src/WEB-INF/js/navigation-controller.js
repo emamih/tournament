@@ -9,11 +9,10 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 	 * @param sessionContext {de.htw.tournament.SessionContext} a session context
 	 */
 	de.htw.tournament.NavigationController = function (sessionContext) {
-		SUPER.call(this, 2, sessionContext);
+		SUPER.call(this, -1);
 	}
 	de.htw.tournament.NavigationController.prototype = Object.create(SUPER.prototype);
 	de.htw.tournament.NavigationController.prototype.constructor = de.htw.tournament.NavigationController;
-	}
 	
 	/**
 	 * Displays the associated view.
@@ -24,34 +23,84 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 		
 
 		
-		var viewElement = document.querySelector("horizontal");
+//		var viewElement = document.querySelector("horizontal");
 
-		var logoSliderElements = viewElement.querySelectorAll("div.image-slider");
+		var logoSliderElements = document.querySelectorAll("div.image-slider");
 		
 		var self = this;
-		var resource = "/services/tournaments");
-		de.sb.util.AJAX.invoke(resource, "GET", {"Accept": "application/json"}, null, this.sessionContext, function (request) {
+		var tournaments;
+		var resource = "/services/tournaments";
+		de.htw.tournament.AJAX.invoke(resource, "GET", {"Accept": "application/json"}, null, this.sessionContext, function (request) {
 			self.displayStatus(request.status, request.statusText);
 
 			var tournamentsIdentities = [];
 			if (request.status === 200) {
 				var responseBody = JSON.parse(request.responseText).tournaments;
-				var tournaments = responseBody == "" ? [] : (Array.isArray(responseBody.tournaments) ? responseBody.tournaments : [responseBody.tournaments]);
+				tournaments = responseBody == "" ? [] : (Array.isArray(responseBody.tournament) ? responseBody.tournament : [responseBody.tournament]);
 	
-				tournaments.forEach( function (tournaments) {
-					self.entityCache.put(tournaments);
-					if (tournaments.identity !== self.sessionContext.tournaments.identity) {
-						tournamentsIdentities.push(tournaments.identity);
-					}
+				tournaments.forEach( function (tournament) {
+						tournamentsIdentities.push(tournament.identity);
 				});
+				self.refreshSlider(logoSliderElements[0], tournamentsIdentities, "tournaments");
+				
 			}
-	
-			var avar.avatar-slider");
-			self.refreshAvatarSlider(avatarSliderElements[2], personIdentities, self.toggleMonitorTarget);
-		this.refreshCompetitionSlider(logoSliderElements[0], this.sessionContext.user.monitorSourceIdentities, this.toggleMonitorTarget);
+		});
 		
-		this.refreshCompititionSlider(logoSliderElements[1], this.sessionContext.user.monitorTargetIdentities, this.toggleMonitorTarget);
+		self.refreshCompetitionSlider("1");
+		
+		
+	}
+	
+	de.htw.tournament.NavigationController.prototype.refreshSlider = function (sliderElement, identities, pathelEment) {
+		while (sliderElement.lastChild) sliderElement.removeChild(sliderElement.lastChild);
+
+		var self = this;
+		identities.forEach( function (identity) {
+				var imageElement = document.createElement("img");
+				imageElement.src = "/services/"+pathelEment+"/" + identity + "/logo";
+
+				var anchorElement = document.createElement("a");
+				anchorElement.appendChild(imageElement);
+				
+//				anchorElement.appendChild(document.createTextNode(person.alias));
+//				anchorElement.title = person.name.given + " " + person.name.family;
+				if(pathelEment=="tournaments")anchorElement.onclick = self.refreshCompetitionSlider.bind(self, identity);
+				else {
+					anchorElement.title = identity;
+					anchorElement.onclick = self.selectImage.bind(self, anchorElement);
+				}
+				sliderElement.appendChild(anchorElement);
+		});
+}
+	
+	de.htw.tournament.NavigationController.prototype.refreshCompetitionSlider = function (tournamentId) {
+		var logoSliderElements = document.querySelectorAll("div.image-slider");
+		var resource = "/services/tournaments/"+tournamentId+"/competitions";
+		var self = this;
+		de.htw.tournament.AJAX.invoke(resource, "GET", {"Accept": "application/json"}, null, this.sessionContext, function (request) {
+	
+			var competitionIdentities = [];
+			if (request.status === 200) {
+				var responseBody = JSON.parse(request.responseText).competitions;
+				var competitions = responseBody == "" ? [] : (Array.isArray(responseBody.competition) ? responseBody.competition : [responseBody.competition]);
+	
+				competitions.forEach( function (competition) {
+					competitionIdentities.push(competition.identity);
+				});
+				self.refreshSlider(logoSliderElements[1], competitionIdentities, "competitions");
+			}
+		});
+	}
+	
+	de.htw.tournament.NavigationController.prototype.selectImage = function (anchorElement) {
+		var competitionsSliderElements = document.querySelectorAll("div.image-slider")[1];
+		var menuElements = competitionsSliderElements.querySelectorAll("a");
+
+		for (var run = 0; run < menuElements.length; ++run) {
+				menuElements[run].classList.remove("selected");
+		}
+		anchorElement.classList.add("selected");
 	}
 
 	
-}
+} ());

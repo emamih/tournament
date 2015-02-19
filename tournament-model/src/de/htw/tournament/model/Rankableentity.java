@@ -2,18 +2,26 @@ package de.htw.tournament.model;
 // default package
 // Generated 09.02.2015 16:09:37 by Hibernate Tools 4.3.1
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -37,24 +45,24 @@ public abstract class Rankableentity implements java.io.Serializable {
 	@Column(name = "identity", unique = true, nullable = false)
 	private Long identity;
 	
+	@XmlElement
 	@Column(name = "discriminator", nullable = false, length = 11)
 	private String discriminator;
 	
-	//TODO private Game LeftDerivedGame
-	//TODO private Game RightDerivedGame
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rankableentityByRightRankableEntityReference")
-//	private Set<Game> gamesForRightRankableEntityReference = new HashSet<Game>(
-//			0);
-//	
+	@XmlTransient
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rightRankableEntity")
+	private Set<Game> rightDerivedGames = new HashSet<Game>(0);
+	
 //	@OneToOne(fetch = FetchType.LAZY, mappedBy = "rankableentity")
 //	private Division division;
-//	
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rankableentityByLeftRankableEntityReference")
-//	private Set<Game> gamesForLeftRankableEntityReference = new HashSet<Game>(0);
-//	
+	
+	@XmlTransient
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "leftRankableEntity")
+	private Set<Game> leftDerivedGames = new HashSet<Game>(0);
+	
 //	@OneToOne(fetch = FetchType.LAZY, mappedBy = "rankableentity")
 //	private Competitor competitor;
-//	
+	
 //	@OneToOne(fetch = FetchType.LAZY, mappedBy = "rankableentityByIdentity")
 //	private Game gameByIdentity;
 
@@ -66,7 +74,7 @@ public abstract class Rankableentity implements java.io.Serializable {
 		this.discriminator = discriminator;
 	}
 
-	public abstract ScoreSheetEntry getScoreSheet();
+	public abstract Collection<ScoreSheetEntry> getScoreSheet();
 	
 	public Long getIdentity() {
 		return this.identity;
@@ -85,6 +93,36 @@ public abstract class Rankableentity implements java.io.Serializable {
 		this.discriminator = discriminator;
 	}
 
+	public Set<Game> getDerivedGames() {
+		HashSet<Game> temp = new HashSet<Game>();
+		temp.addAll(this.leftDerivedGames);
+		temp.addAll(this.rightDerivedGames);
+		return temp;
+	}
+	
+	public boolean entityEquals(Rankableentity other){
+		if(other==null) return false;
+		return other.getIdentity()==this.getIdentity();
+	}
+
+	public Set<Game> getRightDerivedGames() {
+		return rightDerivedGames;
+	}
+
+	public void setRightDerivedGames(Set<Game> rightDerivedGames) {
+		this.rightDerivedGames = rightDerivedGames;
+	}
+
+	public Set<Game> getLeftDerivedGames() {
+		return leftDerivedGames;
+	}
+
+	public void setLeftDerivedGames(Set<Game> leftDerivedGames) {
+		this.leftDerivedGames = leftDerivedGames;
+	}
+	
+	
+	
 	
 //	public Set<Game> getGamesForRightRankableEntityReference() {
 //		return this.gamesForRightRankableEntityReference;

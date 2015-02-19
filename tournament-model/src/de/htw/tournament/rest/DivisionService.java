@@ -1,6 +1,7 @@
 package de.htw.tournament.rest;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.Response.Status;
 import de.htw.tournament.model.Competition;
 import de.htw.tournament.model.Division;
 import de.htw.tournament.model.Game;
+import de.htw.tournament.model.ScoreSheetEntry;
 
 
 @Path("divisions")
@@ -90,7 +92,7 @@ public class DivisionService {
 			if (division == null) return Response.status(Status.NOT_FOUND).build();
 			
 			// Sort by ascending identity, implicitly avoiding lazy initialization during marshaling!
-			final Collection<Game> games = new TreeSet<>(division.getRootGames());
+			final Collection<Game> games = new HashSet<>(division.getRootGames());
 			for(Game temp : games){
 				temp.getLeftCompetitor();
 				temp.getRightCompetitor();
@@ -112,9 +114,11 @@ public class DivisionService {
 
 			Division division = entityManager.find(Division.class, divisionIdentity);
 			if (division == null) return Response.status(Status.NOT_FOUND).build();
-			
+//			division.getLeftDerivedGames();
+//			division.getRightDerivedGames();
 			// Sort by ascending identity, implicitly avoiding lazy initialization during marshaling!
-			final Collection<Game> games = new TreeSet<>(division.getGames());
+			final Collection<Game> games = new HashSet<>(division.getLeftDerivedGames());
+			games.addAll(division.getRightDerivedGames());
 			for(Game temp : games){
 				temp.getLeftCompetitor();
 				temp.getRightCompetitor();
@@ -138,12 +142,12 @@ public class DivisionService {
 			if (division == null) return Response.status(Status.NOT_FOUND).build();
 			
 			// Sort by ascending identity, implicitly avoiding lazy initialization during marshaling!
-			final Collection<Game> games = new TreeSet<>(division.getRootGames());
-			for(Game temp : games){
-				temp.getLeftCompetitor();
-				temp.getRightCompetitor();
+			final Collection<ScoreSheetEntry> scoresheets = new TreeSet<>(division.getScoreSheet());
+			for(ScoreSheetEntry temp : scoresheets){
+				temp.getCompetitor();
+				temp.getRoot();
 			}
-			final GenericEntity<?> genericEntity = new GenericEntity<Collection<Game>>(games) {};
+			final GenericEntity<?> genericEntity = new GenericEntity<Collection<ScoreSheetEntry>>(scoresheets) {};
 			return Response.ok(genericEntity).build();
 		} finally {
 			try { entityManager.close(); } catch (final Exception exception) {}

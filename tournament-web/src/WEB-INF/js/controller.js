@@ -5,7 +5,7 @@
 "use strict";
 
 this.de = this.de || {};
-this.de.sb = this.de.sb || {};
+this.de.htw = this.de.htw || {};
 this.de.htw.tournament = this.de.htw.tournament || {};
 (function () {
 
@@ -40,23 +40,6 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 		}
 	}
 
-	de.htw.tournament.Controller.prototype.refreshCompetitionSlider = function (sliderElement, competitionIdentity, clickAction) {
-		while (sliderElement.lastChild) sliderElement.removeChild(sliderElement.lastChild);
-
-		var self = this;
-		compititionIdentity.forEach( function (competitionIdentity) {
-			self.entityCache.resolve(competitionIdentity, function (competition) {
-				var imageElement = document.createElement("img");
-				imageElement.src = "/services/tournaments/" + competition.identity + "/logo";
-
-				var anchorElement = document.createElement("a");
-				anchorElement.appendChild(imageElement);
-//				anchorElement.appendChild(document.createTextNode(person.alias));
-//				anchorElement.title = person.name.given + " " + person.name.family;
-				anchorElement.addEventListener("click", clickAction.bind(self, competition.identity));
-				sliderElement.appendChild(anchorElement);
-			});
-		});
 	/**
 	 * Displays the given HTTP status.
 	 * @param code {Number} the status code

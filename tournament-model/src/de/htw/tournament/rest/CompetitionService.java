@@ -49,8 +49,8 @@ public class CompetitionService {
 			final Competition competiton = entityManager.find(Competition.class, competitorIdentity);
 			if (competiton == null) return Response.status(Status.NOT_FOUND).build();
 
-			final Document avatar = competiton.getLogo();
-			return Response.ok(avatar.getBody(), avatar.getType()).build();
+			final Document logo = competiton.getLogo();
+			return Response.ok(logo.getBody(), logo.getType()).build();
 		} finally {
 			try { entityManager.close(); } catch (final Exception exception) {}
 		}
@@ -93,10 +93,10 @@ public class CompetitionService {
 			final Collection<Game> derived_games = new HashSet<Game>();
 			
 			for(Division division : divisions){
-				derived_games.addAll(division.getGames());
+				derived_games.addAll(division.getDerivedGames());
 			}
 			
-			final GenericEntity<?> genericEntity = new GenericEntity<Collection<Division>>(divisions) {};
+			final GenericEntity<?> genericEntity = new GenericEntity<Collection<Game>>(derived_games) {};
 			return Response.ok(genericEntity).build();
 		} finally {
 			try { entityManager.close(); } catch (final Exception exception) {}
