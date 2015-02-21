@@ -22,7 +22,7 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 	de.htw.tournament.DerivedGameController.prototype.constructor = de.htw.tournament.ClosedAuctionsController;
 
 	var derivedGamesCache = [];
-	var counter =1;
+	var layerId = 8;
 	
 	/**
 	 * Displays the associated view.
@@ -56,9 +56,25 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 					var responseBody = JSON.parse(request.responseText).games;
 					var games = responseBody == "" ? [] : (Array.isArray(responseBody.game) ? responseBody.game : [responseBody.game]);
 					
+					var counter =1;
 					var derived_games_template = document.querySelector("#derived-games-template").content.cloneNode(true);
-					derived_games_template.querySelector("output").innerHTML = "1/8 Final";
+					derived_games_template.querySelector("output").innerHTML = "1/"+layerId+" Final";
 					derived_games_template.querySelector(".derived-games").id = "finale"+counter;
+					main_element.appendChild(derived_games_template);
+					
+					derived_games_template = document.querySelector("#derived-games-template").content.cloneNode(true);
+					derived_games_template.querySelector("output").innerHTML = "1/"+layerId/2+" Final";
+					derived_games_template.querySelector(".derived-games").id = "finale"+(counter+1);
+					main_element.appendChild(derived_games_template);
+					
+					derived_games_template = document.querySelector("#derived-games-template").content.cloneNode(true);
+					derived_games_template.querySelector("output").innerHTML = "1/"+layerId/4+" Final";
+					derived_games_template.querySelector(".derived-games").id = "finale"+(counter+2);
+					main_element.appendChild(derived_games_template);
+					
+					derived_games_template = document.querySelector("#derived-games-template").content.cloneNode(true);
+					derived_games_template.querySelector("output").innerHTML = "Final";
+					derived_games_template.querySelector(".derived-games").id = "finale"+(counter+3);
 					main_element.appendChild(derived_games_template);
 					
 					games.forEach( function (game) {
@@ -69,7 +85,6 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 					});
 					
 					self.printDerivedGames(gameIdentities,"finale"+counter,"");
-					counter++;
 				}
 			});
 			
@@ -77,37 +92,37 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 		}
 	}
 	
-	de.htw.tournament.DerivedGameController.prototype.getDerivedGames = function (main_element,element,path) {
-		var self = this;
-		
-		de.htw.tournament.AJAX.invoke(path, "GET", {"Accept": "application/json"}, null, this.sessionContext, function (request) {
-			var derivedGamesTemp = {};
-			if (request.status === 200) {
-				var responseBody = JSON.parse(request.responseText).games;
-				var games = responseBody == "" ? [] : (Array.isArray(responseBody.game) ? responseBody.game : [responseBody.game]);
-				var i = 1;
-				games.forEach( function (game) {
-					derivedGamesTemp[game.identity] = game;
-				});
-				var keys = [];
-			    for (var key in derivedGamesCache) {
-			      if (derivedGamesCache.hasOwnProperty(key)) {
-			        keys.push(key);
-			      }
-			    }
-			    keys.sort ();
-			    for (i in keys) {
-			      var key = keys[i];
-			      var value = things[key];
-			      derivedGamesCache[i]=value;
-			    }
-			    
-			    var path = "/services/divisions/"+division.identity+"/derived-games";
-				
-				self.refreshScoreSheet(main_element,"division"+division.identity,path);
-			}
-		});
-	}
+//	de.htw.tournament.DerivedGameController.prototype.getDerivedGames = function (main_element,element,path) {
+//		var self = this;
+//		
+//		de.htw.tournament.AJAX.invoke(path, "GET", {"Accept": "application/json"}, null, this.sessionContext, function (request) {
+//			var derivedGamesTemp = {};
+//			if (request.status === 200) {
+//				var responseBody = JSON.parse(request.responseText).games;
+//				var games = responseBody == "" ? [] : (Array.isArray(responseBody.game) ? responseBody.game : [responseBody.game]);
+//				var i = 1;
+//				games.forEach( function (game) {
+//					derivedGamesTemp[game.identity] = game;
+//				});
+//				var keys = [];
+//			    for (var key in derivedGamesCache) {
+//			      if (derivedGamesCache.hasOwnProperty(key)) {
+//			        keys.push(key);
+//			      }
+//			    }
+//			    keys.sort ();
+//			    for (i in keys) {
+//			      var key = keys[i];
+//			      var value = things[key];
+//			      derivedGamesCache[i]=value;
+//			    }
+//			    
+//			    var path = "/services/divisions/"+division.identity+"/derived-games";
+//				
+//				self.refreshScoreSheet(main_element,"division"+division.identity,path);
+//			}
+//		});
+//	}
 	
 	de.htw.tournament.DerivedGameController.prototype.printDerivedGames = function (games,element,path) {
 		var self = this;
@@ -116,6 +131,7 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 
 			var derived_game_template = document.querySelector("#derived-game-template").content.cloneNode(true);
 			var outer = derived_game_template.querySelectorAll(".derived-game > div");
+			derived_game_template.querySelector(".derived-game").id = "game_"+game.identity;
 			
 			outer[0].querySelector("img").src = "/services/competitors/" + game.leftCompetitor.identity + "/logo";
 			outer[2].querySelector("img").src = "/services/competitors/" + game.rightCompetitor.identity + "/logo";
@@ -128,27 +144,72 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 			
 			var dom_element = document.querySelector("#"+element);
 			dom_element.appendChild(derived_game_template);
+			
+			self.printDerivedGame(game.identity,2);
 		});
+	}
+	
+	de.htw.tournament.DerivedGameController.prototype.printDerivedGame = function (gameIdentity,layerCounter) {
+		var self = this;
 		
-//		var keys = [];
-//	    for (var key in derivedGamesTemp) {
-//	      if (derivedGamesTemp.hasOwnProperty(key)) {
-//	        keys.push(key);
-//	      }
-//	    }
-//	    keys.sort ();
-//	    for (i in keys) {
-//	      var key = keys[i];
-//	      var value = derivedGamesTemp[key];
-//	      derivedGamesCache[i]=value;
-//	    }
-//	    for (var key in derivedGamesTemp) {
-//		  if (derivedGamesTemp.hasOwnProperty(key)) {
-//		    keys.push(key);
-//		  }
-//		}
-//	    games.forEach( function (game) {
-//			derivedGamesTemp[game.identity] = game;
-//		});
+		var resource = "/services/games/"+gameIdentity+"/derived-games";
+		de.htw.tournament.AJAX.invoke(resource, "GET", {"Accept": "application/json"}, null, this.sessionContext, function (request) {
+			self.displayStatus(request.status, request.statusText);
+
+			if (request.status === 200) {
+				var responseBody = JSON.parse(request.responseText).games;
+				var games = responseBody == "" ? [] : (Array.isArray(responseBody.game) ? responseBody.game : [responseBody.game]);
+				
+				games.forEach( function (game) {
+					
+					var currentLayer = document.querySelector("#finale"+layerCounter);
+					var insert = true;
+					var append = true;
+					var insertElement;
+					var gamesArr = currentLayer.querySelectorAll(".derived-game");
+					
+					for(var i =0; i<gamesArr.length; i++ ){
+						var id_game = gamesArr[i].id.split("_")[1];
+						if(id_game == game.identity){
+							insert=false;
+							break;
+						} else if (id_game > game.identity){
+							insertElement = gamesArr[i];
+							append = false ;
+							break;
+						} else {
+							insertElement = gamesArr[i];
+							append = true ;
+						}
+					}
+					
+					
+					if (insert) {	
+						var derived_game_template = document.querySelector("#derived-game-template").content.cloneNode(true);
+						var outer = derived_game_template.querySelectorAll(".derived-game > div");
+						derived_game_template.querySelector(".derived-game").id = "game_"+game.identity;
+						
+						outer[0].querySelector("img").src = "/services/competitors/" + game.leftCompetitor.identity + "/logo";
+						outer[2].querySelector("img").src = "/services/competitors/" + game.rightCompetitor.identity + "/logo";
+						
+						outer[0].querySelector("output").innerHTML = game.leftCompetitor.alias;
+						outer[2].querySelector("output").innerHTML = game.rightCompetitor.alias;
+						
+						outer[0].querySelector("input").value = game.leftScore;
+						outer[2].querySelector("input").value = game.rightScore;
+						
+						var dom_element = document.querySelector("#finale"+layerCounter);
+						if(append){
+							if(insertElement!=undefined && insertElement.nextSibling!=undefined)dom_element.insertBefore(derived_game_template, insertElement.nextSibling);
+							else dom_element.appendChild(derived_game_template);
+						} else {
+							dom_element.insertBefore(derived_game_template, insertElement);
+						}
+						self.printDerivedGame(game.identity,layerCounter+1);
+					}
+					
+				});
+			}
+		});
 	}
 } ());

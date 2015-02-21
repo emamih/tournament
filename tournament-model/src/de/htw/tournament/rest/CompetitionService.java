@@ -90,7 +90,7 @@ public class CompetitionService {
 			
 			// Sort by ascending identity, implicitly avoiding lazy initialization during marshaling!
 			final Collection<Division> divisions = new TreeSet<>(competiton.getDivisions());
-			final Collection<Game> derived_games = new HashSet<Game>();
+			final Collection<Game> derived_games = new TreeSet<Game>();
 			
 			for(Division division : divisions){
 				derived_games.addAll(division.getDerivedGames());

@@ -27,13 +27,14 @@ import de.htw.tournament.rest.ServiceProvider;
 
 /**
   */
+@SuppressWarnings("rawtypes")
 @XmlRootElement
 @Entity
 @Table(schema = "tournament")
 @PrimaryKeyJoinColumn(name = "gameIdentity")
 @XmlAccessorType(XmlAccessType.NONE)
 //TODO änderung in db übernehemen
-public class Game  extends Rankableentity implements java.io.Serializable{
+public class Game  extends Rankableentity implements java.io.Serializable, Comparable{
 
 	/**
 	 * 
@@ -212,10 +213,17 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 			
 			final SortedSet<ScoreSheetEntry> scoresheets = new TreeSet<>();
 			Collection<Object[]> results = new ArrayList<Object[]>(); 
-			Object[] results_inner = new Object[]{this.getLeftCompetitor(),null,this.getLeftScore(),this.getRightScore(),0};
-			results.add(results_inner);
-			results_inner = new Object[]{this.getRightCompetitor(),null,this.getRightScore(),this.getLeftScore(),0};
-			results.add(results_inner);
+			Object[] results_left = new Object[]{this.getLeftCompetitor(),null,this.getLeftScore(),this.getRightScore(),0};
+			Object[] results_right = new Object[]{this.getRightCompetitor(),null,this.getRightScore(),this.getLeftScore(),0};
+			
+			if(this.getLeftScore()>this.getRightScore()){
+				results.add(results_left);
+				results.add(results_right);
+			} else {
+				results.add(results_right);
+				results.add(results_left);
+			}
+			
 			for (Object[] result : results) {
 			   Competitor competitor = (Competitor) result[0];
 			   Division root = (Division) result[1];
@@ -232,6 +240,21 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 //			try { entityManager.close(); } catch (final Exception exception) {}
 //		}
 		
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		if(o instanceof Game){
+			Game game =(Game) o;
+			
+			if(this.getIdentity() > game.getIdentity()){
+				return 1;
+			} else if(this.getIdentity() < game.getIdentity()) {
+				return -1;
+			} else return 0;
+		}
+		
+		return +1;
 	}
 
 }
