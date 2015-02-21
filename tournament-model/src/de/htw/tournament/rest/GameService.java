@@ -66,7 +66,7 @@ public class GameService {
 	@Path("{identity}")
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response modifyBid (@PathParam("identity") final long gameIdentity, @FormParam("leftScore") final short leftScore, @FormParam("leftScore") final short rightScore) {
+	public Response modifyBid (@PathParam("identity") final long gameIdentity, @FormParam("leftScore") final short leftScore, @FormParam("rightScore") final short rightScore) {
 		final EntityManager entityManager = ServiceProvider.TOURNAMENT_FACTORY.createEntityManager();
 
 		entityManager.getTransaction().begin();
@@ -77,6 +77,7 @@ public class GameService {
 			game.setRightScore(rightScore);
 
 			entityManager.getTransaction().commit();
+			entityManager.persist(game);
 			return Response.ok(game.getIdentity(), MediaType.TEXT_PLAIN_TYPE).build();
 		} catch (final NullPointerException | IllegalArgumentException exception) {
 			return Response.status(Status.BAD_REQUEST).build();

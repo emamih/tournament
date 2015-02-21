@@ -91,7 +91,7 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 					
 					temp[0].querySelector("output").innerHTML = i+".";
 					temp[1].querySelector("img").src = "/services/competitors/" + scoresheet.competitor.identity + "/logo";
-					temp[1].querySelector("output").src = scoresheet.competitor.alias;
+					temp[1].querySelector("output").innerHTML = scoresheet.competitor.alias;
 					temp[2].querySelector("output").innerHTML = scoresheet.score;
 					temp[3].querySelector("output").innerHTML = scoresheet.opponentScore;
 					temp[4].querySelector("output").innerHTML = scoresheet.score-scoresheet.opponentScore;

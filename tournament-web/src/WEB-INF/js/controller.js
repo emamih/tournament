@@ -59,4 +59,15 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 			outputElement.className = "error";
 		}
 	}
+	
+	de.htw.tournament.Controller.prototype.refreshGameScore = function (leftScore,rightScore,identity) {
+		var self = this;
+		const
+		resource = "/services/games/"+identity;
+		const
+		form = "leftScore=" + leftScore + "&rightScore=" + rightScore;
+		de.htw.tournament.AJAX.invoke(resource, "POST", {"Content-type" : "application/x-www-form-urlencoded"}, form, this.sessionContext, function(request) {
+			self.display();
+		});
+	}
 } ());
