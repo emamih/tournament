@@ -1,5 +1,8 @@
 package de.htw.tournament;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 import javax.persistence.EntityManager;
@@ -27,7 +30,31 @@ public class TicketGenrator {
 		for (int r = 0; r <= 24; r++) {
 			Ticket t = new Ticket();
 			//Todo: Passwort generieren und sha256 draus basteln
-			t.setValueHash(("password"+r).getBytes());
+			String passwordClearText = "password" +r; 
+			MessageDigest shaCreator = null;
+			byte[] sha256 = null;
+			
+			//Initialize hash generator
+			
+			try {
+				shaCreator = MessageDigest.getInstance("SHA-256");
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			//Create hash from cleartext password
+			
+			try {
+				sha256 = shaCreator.digest(passwordClearText.getBytes("UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			//Set hash to ticket
+			
+			t.setValueHash(sha256);
 			t.setInvalidationTimestamp(System.currentTimeMillis()+300);
 			
 			transaction = manager.getTransaction();
