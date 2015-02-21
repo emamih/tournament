@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path=""/>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/hibernate-4.3.0"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/java-ee"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/java-se"/>
