@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -16,6 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(schema = "tournament")
 @SuppressWarnings("rawtypes")
+@NamedQuery(name="invalidTickets", query="SELeCt t from Ticket t where t.invalidationTimestamp>:invalid")
 public class Ticket implements Comparable, java.io.Serializable {
 
 	
