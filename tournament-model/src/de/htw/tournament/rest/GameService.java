@@ -1,9 +1,16 @@
 package de.htw.tournament.rest;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -11,15 +18,22 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import de.htw.tournament.model.Game;
+import de.htw.tournament.model.Ticket;
+import de.sb.javase.io.HttpAuthenticationCodec;
 
 @Path("games")
 public class GameService {
+
+	static private String AUTHENTICATED_AND_AUTORIZED = "thou mayest pass! (I authenticated you as %s, and as such you're also authorized to proceed)";
+	static private String AUTHENTICATED_BUT_NOT_AUTORIZED = "thou shalt not pass! (I authenticated you as %s, but you are not authorized to proceed)";
 	
 	@GET
 	@Path("{identity}")
@@ -30,14 +44,14 @@ public class GameService {
 		try {
 			final Game game = entityManager.find(Game.class, gameIdentity);
 			return game == null
-				? Response.status(Status.NOT_FOUND).build()
-				: Response.ok(game).build();
+					? Response.status(Status.NOT_FOUND).build()
+							: Response.ok(game).build();
 		} finally {
 			try { entityManager.close(); } catch (final Exception exception) {}
 		}
 	}
-	
-	
+
+
 	@GET
 	@Path("{identity}/derived-games")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -48,7 +62,7 @@ public class GameService {
 
 			Game game = entityManager.find(Game.class, gameIdentity);
 			if (game == null) return Response.status(Status.NOT_FOUND).build();
-			
+
 			// Sort by ascending identity, implicitly avoiding lazy initialization during marshaling!
 			final Collection<Game> games = new HashSet<>(game.getDerivedGames());
 			for(Game temp : games){
@@ -61,12 +75,12 @@ public class GameService {
 			try { entityManager.close(); } catch (final Exception exception) {}
 		}
 	}
-	
+
 	@POST
 	@Path("{identity}")
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response modifyBid (@PathParam("identity") final long gameIdentity, @FormParam("leftScore") final short leftScore, @FormParam("leftScore") final short rightScore) {
+	public Response modifyBid (@PathParam("identity") final long gameIdentity, @FormParam("leftScore") final short leftScore, @FormParam("rightScore") final short rightScore) {
 		final EntityManager entityManager = ServiceProvider.TOURNAMENT_FACTORY.createEntityManager();
 
 		entityManager.getTransaction().begin();
@@ -77,6 +91,7 @@ public class GameService {
 			game.setRightScore(rightScore);
 
 			entityManager.getTransaction().commit();
+			entityManager.persist(game);
 			return Response.ok(game.getIdentity(), MediaType.TEXT_PLAIN_TYPE).build();
 		} catch (final NullPointerException | IllegalArgumentException exception) {
 			return Response.status(Status.BAD_REQUEST).build();
@@ -85,4 +100,60 @@ public class GameService {
 			try { entityManager.close(); } catch (final Exception exception) {}
 		}
 	}
+
+
+
+
+	@POST
+	@Path("intentity")
+	public Response basicAuthentication (@Context final HttpHeaders headers) {
+		EntityManager manager = Persistence.createEntityManagerFactory("tournament").createEntityManager();
+		final Map<String,String> credentials;
+		try {
+			final List<String> headerValues = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
+			if (headerValues == null) return Response.status(Status.UNAUTHORIZED).header("WWW-Authenticate", "Basic").build();
+			if (headerValues.size() != 1) throw new IllegalArgumentException();
+			credentials = HttpAuthenticationCodec.decode(headerValues.get(0));
+		} catch (final IllegalArgumentException exception) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+
+		// Perform authentication
+		final String userAlias = credentials.get("username");
+		final String userPassword = credentials.get("password");
+
+		MessageDigest shaCreator = null;
+		byte[] sha256 = null;
+
+		try {
+			sha256 = shaCreator.digest(userPassword.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+
+		Query q = manager.createNamedQuery("hasValidTicket");
+		q.setParameter("invalid", System.currentTimeMillis());
+		q.setParameter("hash", sha256);
+		try{
+			Ticket tickets = (Ticket) q.getSingleResult();
+		}catch(NoResultException e){
+			//passwort falsch
+		}
+		//passwort richtig
+
+		if (!userAlias.equals(userPassword)) {
+			// simulate failed user lookup
+			return Response.status(Status.UNAUTHORIZED).header("WWW-Authenticate", "Basic").build();
+		}
+
+		// Perform authorization checks
+		if ("ticket".equals(userAlias)) {
+			return Response.status(Status.OK).entity(String.format(AUTHENTICATED_AND_AUTORIZED, userAlias)).build();
+		}
+		return Response.status(Status.FORBIDDEN).entity(String.format(AUTHENTICATED_BUT_NOT_AUTORIZED, userAlias)).build();
+	}
+
+
 }

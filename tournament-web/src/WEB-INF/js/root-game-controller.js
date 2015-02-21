@@ -87,6 +87,9 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 					//Logos
 					var root_game_template = document.querySelector("#root-game-template").content.cloneNode(true);
 					var outer = root_game_template.querySelectorAll("div.root-game > span")[0];
+					
+					root_game_template.querySelector("div.root-game").id="root-game_"+game.identity;
+					
 					var temp = outer.querySelectorAll("img")[0];
 					temp.src = "/services/competitors/" + game.leftCompetitor.identity + "/logo";
 					temp = outer.querySelectorAll("img")[1];
@@ -100,7 +103,17 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 					outer = root_game_template.querySelectorAll("div.root-game > span")[1];
 					temp = outer.querySelectorAll("input")[0];
 					temp.value = game.leftScore;
+					temp.onchange = function() {
+					      self.refreshGameScore(document.querySelectorAll("#root-game_"+game.identity+" > span ")[1].querySelectorAll("input")[0].value,
+					      						document.querySelectorAll("#root-game_"+game.identity+" > span ")[1].querySelectorAll("input")[1].value,
+					      						game.identity);
+					}
 					temp = outer.querySelectorAll("input")[1];
+					temp.onchange = function() {
+						self.refreshGameScore(document.querySelectorAll("#root-game_"+game.identity+" > span ")[1].querySelectorAll("input")[0].value,
+	      									  document.querySelectorAll("#root-game_"+game.identity+" > span ")[1].querySelectorAll("input")[1].value,
+	      									  game.identity);
+					}
 					temp.value = game.rightScore;
 					
 					var dom_element = main_element.querySelector("#"+element);
@@ -109,6 +122,7 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 			}
 		});
 	}
+	
 	
 	
 } ());
