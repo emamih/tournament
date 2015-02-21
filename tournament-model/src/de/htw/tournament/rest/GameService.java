@@ -1,17 +1,12 @@
 package de.htw.tournament.rest;
 
 import java.util.Collection;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
-import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -23,7 +18,7 @@ import javax.ws.rs.core.Response.Status;
 
 import de.htw.tournament.model.Game;
 
-//@Path("games")
+@Path("games")
 public class GameService {
 	
 	@GET
@@ -55,7 +50,7 @@ public class GameService {
 			if (game == null) return Response.status(Status.NOT_FOUND).build();
 			
 			// Sort by ascending identity, implicitly avoiding lazy initialization during marshaling!
-			final Collection<Game> games = new TreeSet<>(game.getDerivedGames());
+			final Collection<Game> games = new HashSet<>(game.getDerivedGames());
 			for(Game temp : games){
 				temp.getLeftCompetitor();
 				temp.getRightCompetitor();

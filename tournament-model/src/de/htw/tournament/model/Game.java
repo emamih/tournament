@@ -3,6 +3,7 @@ package de.htw.tournament.model;
 // Generated 09.02.2015 16:09:37 by Hibernate Tools 4.3.1
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -195,37 +196,41 @@ public class Game  extends Rankableentity implements java.io.Serializable{
 	public Collection<ScoreSheetEntry> getScoreSheet() {
 		// TODO Auto-generated method stub
 		
-		final String CRITERIA_QUERY_JPQL = "select "
-				+ " c, d, ds.score, ds.opponentScore, ds.points "
-				+ "from Divisionscoresheetentry ds, Division d, Competitor c "
-				+ "where "
-				+ " ds.rootReference = d.identity and ds.competitorReference = c.identity and "
-				+ "(:rootReference is null or ds.rootReference = :rootReference)";
-		
-		final EntityManager entityManager = ServiceProvider.TOURNAMENT_FACTORY.createEntityManager();
+//		final String CRITERIA_QUERY_JPQL = "select "
+//				+ " c, d, ds.score, ds.opponentScore, ds.points "
+//				+ "from Divisionscoresheetentry ds, Division d, Competitor c "
+//				+ "where "
+//				+ " ds.rootReference = d.identity and ds.competitorReference = c.identity and "
+//				+ "(:rootReference is null or ds.rootReference = :rootReference)";
+//		
+//		final EntityManager entityManager = ServiceProvider.TOURNAMENT_FACTORY.createEntityManager();
 
-		try {
+//		try {
 			
-			final TypedQuery<Object[]> query = entityManager.createQuery(CRITERIA_QUERY_JPQL, Object[].class);
-			query.setParameter("rootReference", this.root.getIdentity());
+//			final TypedQuery<Object[]> query = entityManager.createQuery(CRITERIA_QUERY_JPQL, Object[].class);
+//			query.setParameter("rootReference", this.root.getIdentity());
 			
 			final SortedSet<ScoreSheetEntry> scoresheets = new TreeSet<>();
-			Collection<Object[]> results = query.getResultList();
+			Collection<Object[]> results = new ArrayList<Object[]>(); 
+			Object[] results_inner = new Object[]{this.getLeftCompetitor(),null,this.getLeftScore(),this.getRightScore(),0};
+			results.add(results_inner);
+			results_inner = new Object[]{this.getRightCompetitor(),null,this.getRightScore(),this.getLeftScore(),0};
+			results.add(results_inner);
 			for (Object[] result : results) {
 			   Competitor competitor = (Competitor) result[0];
 			   Division root = (Division) result[1];
-			   Integer score = ((BigDecimal) result[2]).intValue();
-			   Integer opponentScore = ((BigDecimal) result[3]).intValue();
-			   Double points = (Double) result[4];
+			   Integer score = ((Short) result[2]).intValue();
+			   Integer opponentScore = ((Short) result[3]).intValue();
+			   Double points = ((Integer) result[4]).doubleValue();
 			   ScoreSheetEntry sce = new ScoreSheetEntry(competitor, root, score, opponentScore, points);
 			   scoresheets.add(sce);
 			}
 			
 			return scoresheets;
 
-		} finally {
-			try { entityManager.close(); } catch (final Exception exception) {}
-		}
+//		} finally {
+//			try { entityManager.close(); } catch (final Exception exception) {}
+//		}
 		
 	}
 

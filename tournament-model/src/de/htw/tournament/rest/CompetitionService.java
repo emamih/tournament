@@ -96,6 +96,10 @@ public class CompetitionService {
 				derived_games.addAll(division.getDerivedGames());
 			}
 			
+			for(Game game : derived_games){
+				game.getDerivedGames();
+			}
+			
 			final GenericEntity<?> genericEntity = new GenericEntity<Collection<Game>>(derived_games) {};
 			return Response.ok(genericEntity).build();
 		} finally {
