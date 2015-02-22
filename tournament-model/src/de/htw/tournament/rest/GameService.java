@@ -168,7 +168,7 @@ public class GameService {
 			try { entityManager.close(); } catch (final Exception exception) {}
 		}
 		
-		if (ticket==null) {
+		if (ticket==null || !userAlias.equals("ticket")) {
 			// simulate failed user lookup
 			return Response.status(Status.UNAUTHORIZED).header("WWW-Authenticate", "Basic").build();
 		} else {
