@@ -92,37 +92,6 @@ this.de.htw.tournament = this.de.htw.tournament || {};
 		}
 	}
 
-//	de.htw.tournament.DerivedGameController.prototype.getDerivedGames = function (main_element,element,path) {
-//	var self = this;
-
-//	de.htw.tournament.AJAX.invoke(path, "GET", {"Accept": "application/json"}, null, this.sessionContext, function (request) {
-//	var derivedGamesTemp = {};
-//	if (request.status === 200) {
-//	var responseBody = JSON.parse(request.responseText).games;
-//	var games = responseBody == "" ? [] : (Array.isArray(responseBody.game) ? responseBody.game : [responseBody.game]);
-//	var i = 1;
-//	games.forEach( function (game) {
-//	derivedGamesTemp[game.identity] = game;
-//	});
-//	var keys = [];
-//	for (var key in derivedGamesCache) {
-//	if (derivedGamesCache.hasOwnProperty(key)) {
-//	keys.push(key);
-//	}
-//	}
-//	keys.sort ();
-//	for (i in keys) {
-//	var key = keys[i];
-//	var value = things[key];
-//	derivedGamesCache[i]=value;
-//	}
-
-//	var path = "/services/divisions/"+division.identity+"/derived-games";
-
-//	self.refreshScoreSheet(main_element,"division"+division.identity,path);
-//	}
-//	});
-//	}
 
 	de.htw.tournament.DerivedGameController.prototype.printDerivedGames = function (games,element,path) {
 		var self = this;
