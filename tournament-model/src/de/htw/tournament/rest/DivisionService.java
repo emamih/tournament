@@ -92,7 +92,7 @@ public class DivisionService {
 			if (division == null) return Response.status(Status.NOT_FOUND).build();
 			
 			// Sort by ascending identity, implicitly avoiding lazy initialization during marshaling!
-			final Collection<Game> games = new HashSet<>(division.getRootGames());
+			final Collection<Game> games = new TreeSet<>(division.getRootGames());
 			for(Game temp : games){
 				temp.getLeftCompetitor();
 				temp.getRightCompetitor();
@@ -117,7 +117,7 @@ public class DivisionService {
 //			division.getLeftDerivedGames();
 //			division.getRightDerivedGames();
 			// Sort by ascending identity, implicitly avoiding lazy initialization during marshaling!
-			final Collection<Game> games = new HashSet<>(division.getLeftDerivedGames());
+			final Collection<Game> games = new TreeSet<>(division.getLeftDerivedGames());
 			games.addAll(division.getRightDerivedGames());
 			for(Game temp : games){
 				temp.getLeftCompetitor();

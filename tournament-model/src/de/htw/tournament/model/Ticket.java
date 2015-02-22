@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(schema = "tournament")
 @SuppressWarnings("rawtypes")
-@NamedQuery(name="invalidTickets", query="SELeCt t from Ticket t where t.invalidationTimestamp>:invalid")
+@NamedQuery(name="invalidTickets", query="select t from Ticket t where (:invalid - t.invalidationTimestamp) < (60*5)")
 public class Ticket implements Comparable, java.io.Serializable {
 
 	
