@@ -1,22 +1,18 @@
 package de.htw.tournament.rest;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import de.htw.tournament.model.Competition;
 import de.htw.tournament.model.Division;
 import de.htw.tournament.model.Game;
 import de.htw.tournament.model.ScoreSheetEntry;

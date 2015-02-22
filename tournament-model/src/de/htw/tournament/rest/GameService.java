@@ -1,20 +1,15 @@
 package de.htw.tournament.rest;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -30,19 +25,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import de.htw.tournament.model.Competitor;
-import de.htw.tournament.model.Division;
 import de.htw.tournament.model.Game;
-import de.htw.tournament.model.ScoreSheetEntry;
 import de.htw.tournament.model.Ticket;
 import de.sb.javase.io.HttpAuthenticationCodec;
 
 @Path("games")
 public class GameService {
 
-	static private String AUTHENTICATED_AND_AUTORIZED = "thou mayest pass! (I authenticated you as %s, and as such you're also authorized to proceed)";
-	static private String AUTHENTICATED_BUT_NOT_AUTORIZED = "thou shalt not pass! (I authenticated you as %s, but you are not authorized to proceed)";
-	
 	@GET
 	@Path("{identity}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -134,8 +123,6 @@ public class GameService {
 
 		MessageDigest shaCreator = null;
 		byte[] sha256 = null;
-		
-		//Initialize hash generator
 		
 		try {
 			shaCreator = MessageDigest.getInstance("SHA-256");

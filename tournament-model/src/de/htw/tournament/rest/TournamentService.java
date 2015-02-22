@@ -1,6 +1,5 @@
 package de.htw.tournament.rest;
 
-import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.TreeSet;
 
@@ -17,9 +16,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import de.htw.tournament.model.Competition;
-import de.htw.tournament.model.Division;
 import de.htw.tournament.model.Document;
-import de.htw.tournament.model.Game;
 import de.htw.tournament.model.Tournament;
 
 @Path("tournaments")

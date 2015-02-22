@@ -3,7 +3,6 @@ package de.htw.tournament.model;
 // Generated 09.02.2015 16:09:37 by Hibernate Tools 4.3.1
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,9 +25,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import antlr.collections.List;
 import de.htw.tournament.rest.ServiceProvider;
 
+@SuppressWarnings("rawtypes")
 @XmlRootElement
 @Entity
 @Table(schema = "tournament")
